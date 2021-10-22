@@ -9,7 +9,7 @@ on:
 
 jobs:
   Test:
-    name: Test and deploy
+    name: Test
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
     strategy:
