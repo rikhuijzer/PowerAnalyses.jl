@@ -24,7 +24,7 @@ function _alpha(d1::UnivariateDistribution, d2::UnivariateDistribution, power::R
     return tail == one_tail ? right_tail : 2 * right_tail
 end
 
-function get_power(T::OneSampleTTest; es::Real, alpha::Real, n::Int)
+function get_power(T::OneSampleTTest; es::Real, alpha::Real, n)
     v = n - 1
     λ = sqrt(n) * es
     d1 = TDist(v)
@@ -32,7 +32,7 @@ function get_power(T::OneSampleTTest; es::Real, alpha::Real, n::Int)
     return _power(d1, d2, alpha, T.tail)
 end
 
-function get_alpha(T::OneSampleTTest; es::Real, power::Real, n::Int)
+function get_alpha(T::OneSampleTTest; es::Real, power::Real, n)
     v = n - 1
     λ = sqrt(n) * es
     d1 = TDist(v)
@@ -40,3 +40,14 @@ function get_alpha(T::OneSampleTTest; es::Real, power::Real, n::Int)
     return _alpha(d1, d2, power, T.tail)
 end
 
+function get_es(T::OneSampleTTest; alpha::Real, power::Real, n)
+    f(es) = get_alpha(T; es, power, n) - alpha
+    es_range = (-10, 10)
+    return find_zero(f, es_range)
+end
+
+function get_n(T::OneSampleTTest; alpha::Real, power::Real, es::Real)
+    f(n) = get_alpha(T; es, power, n) - alpha
+    n_range = 2:10_000
+    return find_zero(f, n_range)
+end
