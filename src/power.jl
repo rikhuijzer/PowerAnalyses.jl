@@ -1,19 +1,22 @@
 """
-    _calculate_power(a::UnivariateDistribution, b::UnivariateDistribution, alpha::Real, n::Int)
+    _power(d1::UnivariateDistribution, d2::UnivariateDistribution, alpha::Real, tail::Tail)
 
-Return the power.
+Return `power` for which `quantile(d1, alpha) == quantile(d2, beta)` and `beta = 1 - power`.
 """
-function _calculate_power(a::UnivariateDistribution, b::UnivariateDistribution, alpha::Real, n::Int; shift_b=0.0)
-    return 1
+function _power(d1::UnivariateDistribution, d2::UnivariateDistribution, alpha::Real, tail::Tail)
+    right_tail = tail == one_tail ? alpha : alpha / 2
+    except_right_tail = 1 - right_tail
+    critical_value = quantile(d1, except_right_tail)
+    beta = cdf(d2, critical_value)
+    return 1 - beta
 end
 
 """
-    _calculate_alpha(d1::UnivariateDistribution, d2::UnivariateDistribution, power::Real)
+    _alpha(d1::UnivariateDistribution, d2::UnivariateDistribution, power::Real, tail::Tail)
 
-Return the alpha.
-Specifically, return alpha for which `quantile(d1, alpha) == quantile(d2, beta)`.
+Return `alpha` for which `quantile(d1, alpha) == quantile(d2, beta)`.
 """
-function _calculate_alpha(d1::UnivariateDistribution, d2::UnivariateDistribution, power::Real, tail::Tail)
+function _alpha(d1::UnivariateDistribution, d2::UnivariateDistribution, power::Real, tail::Tail)
     beta = 1 - power
     critical_value = quantile(d2, beta)
     except_right_tail = cdf(d1, critical_value)
@@ -21,10 +24,19 @@ function _calculate_alpha(d1::UnivariateDistribution, d2::UnivariateDistribution
     return tail == one_tail ? right_tail : 2 * right_tail
 end
 
-function calculate(T::OneSampleTTest; es::Real, power::Real, n::Int)
+function get_power(T::OneSampleTTest; es::Real, alpha::Real, n::Int)
     v = n - 1
     λ = sqrt(n) * es
     d1 = TDist(v)
     d2 = NoncentralT(v, λ)
-    return _calculate_alpha(d1, d2, power, T.tail)
+    return _power(d1, d2, alpha, T.tail)
 end
+
+function get_alpha(T::OneSampleTTest; es::Real, power::Real, n::Int)
+    v = n - 1
+    λ = sqrt(n) * es
+    d1 = TDist(v)
+    d2 = NoncentralT(v, λ)
+    return _alpha(d1, d2, power, T.tail)
+end
+

@@ -26,6 +26,6 @@ include("power.jl")
 
 export one_tail, two_tails
 export OneSampleTTest, UnpairedTTest, PairedTTest
-export calculate
+export get_alpha, get_power
 
 end # module
