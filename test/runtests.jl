@@ -18,7 +18,6 @@ using Test:
     # For methods which require `find_zero`, compare the outcome with pwr; G*Power is far off.
     @test get_es(OneSampleTTest(two_tails); alpha, power, n) ≈ 0.520 atol=0.001
     @test get_es(OneSampleTTest(one_tail); alpha, power, n) ≈ 0.471 atol=0.001
-
     @test get_n(OneSampleTTest(two_tails); alpha, power, es) ≈ 53.941 atol=0.001
     @test get_n(OneSampleTTest(one_tail); alpha, power, es) ≈ 44.679 atol=0.001
 end

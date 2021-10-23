@@ -24,7 +24,7 @@ const PARAMS = [:es, :alpha, :power, :n]
 include("types.jl")
 include("power.jl")
 
-export one_tail, two_tails
+export Tail, one_tail, two_tails
 export OneSampleTTest, UnpairedTTest, PairedTTest
 export get_alpha, get_power, get_es, get_n
 
