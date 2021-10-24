@@ -27,6 +27,7 @@ using Test: @testset, @test
 
     n_groups = 2
     @test get_power(ANOVATest(n_groups); es, alpha, n) ≈ 0.998 atol=0.001
+    @test get_alpha(ANOVATest(n_groups); es, power, n) ≈ 0.001 atol=0.001
 
     df = 5
     @test get_power(GoodnessOfFitChiSqTest(df); es, alpha, n) ≈ 0.787 atol=0.001

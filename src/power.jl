@@ -62,8 +62,8 @@ function get_alpha(T::StatisticalTest; es::Real, power::Real, n)
     v = distribution_parameters(T; n)
     λ = noncentrality_parameter(T; es, n)
     d = noncentral_distribution(T)
-    d1 = d(v, 0)
-    d2 = d(v, λ)
+    d1 = d(v..., 0)
+    d2 = d(v..., λ)
     return _alpha(d1, d2, power, tail(T))
 end
 
