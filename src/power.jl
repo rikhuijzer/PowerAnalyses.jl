@@ -25,43 +25,45 @@ function _alpha(d1::UnivariateDistribution, d2::UnivariateDistribution, power::R
 end
 
 degrees_of_freedom(T::TTest; n) = n - 1
+# Where n is the total n over two groups.
+degrees_of_freedom(T::IndependentSamplesTTest; n) = n - 2 # n1 + n2 - 2
 degrees_of_freedom(T::ChiSqTest; n) = T.df
 
 noncentrality_parameter(T::TTest; es, n) = sqrt(n) * es
 noncentrality_parameter(T::ChiSqTest; es, n) = n * es^2
 
-function get_power(T::OneSampleTTest; es::Real, alpha::Real, n)
+distribution(T::TTest) = NoncentralT
+distribution(T::ChiSqTest) = NoncentralChisq
+
+tail(T::TTest) = T.tail
+tail(T::ChiSqTest) = one_tail
+
+function get_power(T::StatisticalTest; es::Real, alpha::Real, n)
     v = degrees_of_freedom(T; n)
     λ = noncentrality_parameter(T; es, n)
-    d1 = TDist(v)
-    d2 = NoncentralT(v, λ)
-    return _power(d1, d2, alpha, T.tail)
+    d = distribution(T)
+    d1 = d(v, 0)
+    d2 = d(v, λ)
+    return _power(d1, d2, alpha, tail(T))
 end
 
-function get_power(T::GoodnessOfFitChiSqTest; es::Real, alpha::Real, n)
+function get_alpha(T::StatisticalTest; es::Real, power::Real, n)
     v = degrees_of_freedom(T; n)
     λ = noncentrality_parameter(T; es, n)
-    d1 = Chisq(v)
-    d2 = NoncentralChisq(v, λ)
-    return _power(d1, d2, alpha, one_tail)
+    d = distribution(T)
+    d1 = d(v, 0)
+    d2 = d(v, λ)
+    return _alpha(d1, d2, power, tail(T))
 end
 
-function get_alpha(T::OneSampleTTest; es::Real, power::Real, n)
-    v = degrees_of_freedom(T; n)
-    λ = noncentrality_parameter(T; es, n)
-    d1 = TDist(v)
-    d2 = NoncentralT(v, λ)
-    return _alpha(d1, d2, power, T.tail)
-end
-
-function get_es(T::OneSampleTTest; alpha::Real, power::Real, n)
+function get_es(T::StatisticalTest; alpha::Real, power::Real, n)
     f(es) = get_alpha(T; es, power, n) - alpha
-    es_range = (-10, 10)
-    return find_zero(f, es_range)
+    initial_value = 0.5
+    return find_zero(f, initial_value)
 end
 
-function get_n(T::OneSampleTTest; alpha::Real, power::Real, es::Real)
+function get_n(T::StatisticalTest; alpha::Real, power::Real, es::Real)
     f(n) = get_alpha(T; es, power, n) - alpha
-    n_range = 2:10_000
-    return find_zero(f, n_range)
+    initial_value = 50
+    return find_zero(f, initial_value)
 end

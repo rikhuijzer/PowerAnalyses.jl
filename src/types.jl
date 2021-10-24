@@ -45,7 +45,7 @@ end
 Test a difference between two independent groups.
 Also known as a _independent means t-test_ or _independent samples t-test_.
 """
-struct UnpairedTTest <: TTest end
+struct IndependentSamplesTTest <: TTest end
 
 """
     DependentSamplesTTest <: TTest
@@ -53,7 +53,7 @@ struct UnpairedTTest <: TTest end
 Test a difference between pairs of values.
 Also known as a _correlated pairs t-test_, _dependent samples t-test_ or _dependent means t-test_.
 """
-struct PairedTTest <: TTest end
+struct DependentSamplesTTest <: TTest end
 
 """
     FTest <: StatisticalTest

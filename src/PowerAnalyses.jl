@@ -11,8 +11,7 @@ using Distributions:
     cdf,
     pdf,
     quantile
-using Roots:
-    find_zero
+using Roots: find_zero
 
 const PKGDIR = string(pkgdir(PowerAnalyses))::String
 
