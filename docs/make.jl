@@ -22,7 +22,7 @@ strict = true
 checkdocs = :none
 makedocs(; sitename, pages, format, modules, strict, checkdocs)
 
-repo = "https://github.com/rikhuijzer/PowerAnalyses.jl.git"
+repo = "github.com/rikhuijzer/PowerAnalyses.jl.git"
 push_preview = false
 devbranch = "main"
 deploydocs(; devbranch, repo, push_preview)
