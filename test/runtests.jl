@@ -1,7 +1,5 @@
 using PowerAnalyses
-using Test:
-    @testset,
-    @test
+using Test: @testset, @test
 
 @testset "t-test" begin
     es = 0.5
