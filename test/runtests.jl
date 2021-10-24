@@ -20,4 +20,7 @@ using Test:
     @test get_es(OneSampleTTest(one_tail); alpha, power, n) ≈ 0.471 atol=0.001
     @test get_n(OneSampleTTest(two_tails); alpha, power, es) ≈ 53.941 atol=0.001
     @test get_n(OneSampleTTest(one_tail); alpha, power, es) ≈ 44.679 atol=0.001
+
+    df = 5
+    @test get_power(GoodnessOfFitChiSqTest(df); es, alpha, n) ≈ 0.787 atol=0.001
 end

@@ -14,7 +14,7 @@ end
 """
     _alpha(d1::UnivariateDistribution, d2::UnivariateDistribution, power::Real, tail::Tail)
 
-Return `alpha` for which `quantile(d1, alpha) == quantile(d2, beta)`.
+Return `alpha` for which `quantile(d1, alpha) == quantile(d2, beta)` and `beta = 1 - power`.
 """
 function _alpha(d1::UnivariateDistribution, d2::UnivariateDistribution, power::Real, tail::Tail)
     beta = 1 - power
@@ -30,6 +30,14 @@ function get_power(T::OneSampleTTest; es::Real, alpha::Real, n)
     d1 = TDist(v)
     d2 = NoncentralT(v, λ)
     return _power(d1, d2, alpha, T.tail)
+end
+
+function get_power(T::GoodnessOfFitChiSqTest; es::Real, alpha::Real, n)
+    v = T.df
+    λ = n * es^2
+    d1 = Chisq(v)
+    d2 = NoncentralChisq(v, λ)
+    return _power(d1, d2, alpha, one_tail)
 end
 
 function get_alpha(T::OneSampleTTest; es::Real, power::Real, n)
