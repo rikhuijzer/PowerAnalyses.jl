@@ -24,25 +24,31 @@ function _alpha(d1::UnivariateDistribution, d2::UnivariateDistribution, power::R
     return tail == one_tail ? right_tail : 2 * right_tail
 end
 
+degrees_of_freedom(T::TTest; n) = n - 1
+degrees_of_freedom(T::ChiSqTest; n) = T.df
+
+noncentrality_parameter(T::TTest; es, n) = sqrt(n) * es
+noncentrality_parameter(T::ChiSqTest; es, n) = n * es^2
+
 function get_power(T::OneSampleTTest; es::Real, alpha::Real, n)
-    v = n - 1
-    λ = sqrt(n) * es
+    v = degrees_of_freedom(T; n)
+    λ = noncentrality_parameter(T; es, n)
     d1 = TDist(v)
     d2 = NoncentralT(v, λ)
     return _power(d1, d2, alpha, T.tail)
 end
 
 function get_power(T::GoodnessOfFitChiSqTest; es::Real, alpha::Real, n)
-    v = T.df
-    λ = n * es^2
+    v = degrees_of_freedom(T; n)
+    λ = noncentrality_parameter(T; es, n)
     d1 = Chisq(v)
     d2 = NoncentralChisq(v, λ)
     return _power(d1, d2, alpha, one_tail)
 end
 
 function get_alpha(T::OneSampleTTest; es::Real, power::Real, n)
-    v = n - 1
-    λ = sqrt(n) * es
+    v = degrees_of_freedom(T; n)
+    λ = noncentrality_parameter(T; es, n)
     d1 = TDist(v)
     d2 = NoncentralT(v, λ)
     return _alpha(d1, d2, power, T.tail)

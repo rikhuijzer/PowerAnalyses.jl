@@ -76,11 +76,11 @@ Supertype for Chi-Square tests.
 abstract type ChiSqTest <: StatisticalTest end
 
 """
-    GoodnessOfFitChiSqTest(df::Int) <: StatisticalTest
+    GoodnessOfFitChiSqTest(df::Int) <: ChiSqTest
 
 Chi-Square goodness of fit test for categorical variables with more than two levels.
 Here, the degrees of freedom `df` are `n_groups - 1`.
 """
-struct GoodnessOfFitChiSqTest <: StatisticalTest
+struct GoodnessOfFitChiSqTest <: ChiSqTest
     df::Int
 end

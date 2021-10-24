@@ -13,4 +13,4 @@ The priorities of this package are as follows:
 1. don't overuse Unicode symbols (it is unreasonable to expect that everyone can easily type Unicode), and
 1. focus on supporting power analyses which are conducted before running statistical tests (also known as a _prospective_ or _a priori_ power analysis)[^post],
 
-[^post]: Post hoc analysis of nonsignificant results are wrong (Ellis, [2015](https://doi.org/10.1017/CBO9780511761676)).
+[^post]: Post hoc analysis of nonsignificant results are advised against (Ellis, [2015](https://doi.org/10.1017/CBO9780511761676)).
