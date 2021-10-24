@@ -11,15 +11,10 @@ Can be `one_tail` or `two_tails`.
 
 Supertype for all test types in this package.
 
-!!! note
-    This package defines its own types.
-    There are multiple reasons why the types from `HypothesisTests.jl` weren't re-used:
-    1. The API design is a bit weird.
-        For example, there is no way to pass a tail to a t-test, so it will always print the default tail.
-        Only when using `pvalue(..., tail)`, the tail is taken into consideration.
-    1. Adding `HypothesisTests.jl` would also add multiple dependencies which this package doesn't need.
-    1. It wouldn't be too hard to write a separate wrapper around `HypothesisTests.jl`.
-        Since a priori tests make the most sense, there is only a need to allow converting a power analysis to a test.
+The lowest level types are all structs because some of them need to hold values.
+A parameter can become a struct field when it's never required to infer the parameter from the other parameters.
+For example, it doesn't make sense to use a power analysis to check whether one should use a one tailed or two tailed t-test.
+As another example, it does make sense to use a power analysis to check the required sample size `n` (an a priori power analysis).
 """
 abstract type StatisticalTest end
 
@@ -40,20 +35,25 @@ struct OneSampleTTest <: TTest
 end
 
 """
-    IndependentSamplesTTest <: TTest
+    IndependentSamplesTTest(tail::Tail) <: TTest
 
 Test a difference between two independent groups.
+When using this type, make sure that `n` states the total number of samples in both groups.
 Also known as a _independent means t-test_ or _independent samples t-test_.
 """
-struct IndependentSamplesTTest <: TTest end
+struct IndependentSamplesTTest <: TTest
+    tail::Tail
+end
 
 """
-    DependentSamplesTTest <: TTest
+    DependentSamplesTTest(tail::Tail) <: TTest
 
 Test a difference between pairs of values.
 Also known as a _correlated pairs t-test_, _dependent samples t-test_ or _dependent means t-test_.
 """
-struct DependentSamplesTTest <: TTest end
+struct DependentSamplesTTest <: TTest
+    tail::Tail
+end
 
 """
     FTest <: StatisticalTest

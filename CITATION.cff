@@ -1,0 +1,8 @@
+cff-version: "1.2.0"
+authors:
+  - family-names: Huijzer
+    given-names: Rik
+    orcid: "https://orcid.org/0000-0001-9445-8466"
+title: "PowerAnalyses.jl"
+date-released: 2021-10-24
+url: "https://github.com/rikhuijzer/PowerAnalyses.jl"

@@ -30,6 +30,7 @@ degrees_of_freedom(T::IndependentSamplesTTest; n) = n - 2 # n1 + n2 - 2
 degrees_of_freedom(T::ChiSqTest; n) = T.df
 
 noncentrality_parameter(T::TTest; es, n) = sqrt(n) * es
+noncentrality_parameter(T::IndependentSamplesTTest; es, n) = sqrt(n / 2) * es
 noncentrality_parameter(T::ChiSqTest; es, n) = n * es^2
 
 distribution(T::TTest) = NoncentralT

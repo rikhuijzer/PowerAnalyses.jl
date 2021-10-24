@@ -21,6 +21,12 @@ using Test:
     @test get_n(OneSampleTTest(two_tails); alpha, power, es) ≈ 53.941 atol=0.001
     @test get_n(OneSampleTTest(one_tail); alpha, power, es) ≈ 44.679 atol=0.001
 
+    # G*Power gives 0.77; they seem to calculate the noncentrality_parameter differently.
+    # pwr.t.test(n=50, d=0.5, sig.level=NULL, power=0.95, type="two.sample", alternative="two.sided")
+    @test get_alpha(IndependentSamplesTTest(two_tails); es, power, n) ≈ 0.392 atol=0.01
+    # Same as the one sample t-test.
+    @test get_alpha(DependentSamplesTTest(two_tails); es, power, n) ≈ 0.067 atol=0.01
+
     df = 5
     @test get_power(GoodnessOfFitChiSqTest(df); es, alpha, n) ≈ 0.787 atol=0.001
     @test get_alpha(GoodnessOfFitChiSqTest(df); es, power, n) ≈ 0.253 atol=0.001
