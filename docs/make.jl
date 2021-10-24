@@ -24,5 +24,5 @@ makedocs(; sitename, pages, format, modules, strict, checkdocs)
 
 repo = "https://github.com/rikhuijzer/PowerAnalyses.jl"
 push_preview = false
-devbranch = main
+devbranch = "main"
 deploydocs(; devbranch, repo, push_preview)
