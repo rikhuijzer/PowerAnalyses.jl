@@ -1,5 +1,8 @@
 # PowerAnalyses.jl
 
+[![CI Test][ci-img]][ci-url]
+[![Documentation][docs-dev-img]][docs-dev-url]
+
 Statistical power analyses
 
 ## Introduction
@@ -9,8 +12,12 @@ In other words, it is the inverse of making a Type II error (false negative) β:
 
 The priorities of this package are as follows:
 
-1. make it easy for anyone to run a power analysis; even for people who never used the Julia programming language before,
-1. don't overuse Unicode symbols (it is unreasonable to expect that everyone can easily type Unicode), and
-1. focus on supporting power analyses which are conducted before running statistical tests (also known as a _prospective_ or _a priori_ power analysis)[^post],
+1. make it easy for anyone to run a power analysis; even for people who never used the Julia programming language before and
+1. don't overuse Unicode symbols (it is unreasonable to expect that everyone can easily type Unicode)
 
-[^post]: Post hoc analysis of nonsignificant results are advised against (Ellis, [2015](https://doi.org/10.1017/CBO9780511761676)).
+See <https://rikhuijzer.github.io/PowerAnalyses.jl/dev/> for more information.
+
+[ci-img]: https://github.com/rikhuijzer/PowerAnalyses.jl/workflows/CI/badge.svg
+[ci-url]: https://github.com/rikhuijzer/PowerAnalyses.jl/actions?query=workflow%3ACI+branch%3Amain
+[docs-dev-img]: https://img.shields.io/badge/Docs-dev-blue.svg
+[docs-dev-url]: https://rikhuijzer.github.io/PowerAnalyses.jl/dev/
