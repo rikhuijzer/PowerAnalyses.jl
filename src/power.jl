@@ -26,16 +26,16 @@ end
 
 distribution_parameters(T::TTest; n) = n - 1
 distribution_parameters(T::IndependentSamplesTTest; n) = n - 2 # n1 + n2 - 2
-distribution_parameters(T::ChiSqTest; n) = T.df
+distribution_parameters(T::ChisqTest; n) = T.df
 distribution_parameters(T::ANOVATest; n) = (T.n_groups - 1, (n - 1) * T.n_groups)
 
 noncentrality_parameter(T::TTest; es, n) = sqrt(n) * es
 noncentrality_parameter(T::IndependentSamplesTTest; es, n) = sqrt(n / 2) * es
-noncentrality_parameter(T::ChiSqTest; es, n) = n * es^2
+noncentrality_parameter(T::ChisqTest; es, n) = n * es^2
 noncentrality_parameter(T::ANOVATest; es, n) = n * es^2 * T.n_groups
 
 noncentral_distribution(T::TTest) = NoncentralT
-noncentral_distribution(T::ChiSqTest) = NoncentralChisq
+noncentral_distribution(T::ChisqTest) = NoncentralChisq
 noncentral_distribution(T::FTest) = NoncentralF
 
 tail(T::TTest) = T.tail

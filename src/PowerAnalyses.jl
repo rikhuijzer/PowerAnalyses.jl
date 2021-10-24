@@ -27,7 +27,7 @@ include("power.jl")
 
 export Tail, one_tail, two_tails
 export IndependentSamplesTTest, DependentSamplesTTest, OneSampleTTest
-export GoodnessOfFitChiSqTest
+export GoodnessOfFitChisqTest
 export ANOVATest
 export get_alpha, get_power, get_es, get_n
 

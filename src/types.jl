@@ -72,18 +72,27 @@ struct ANOVATest <: FTest
 end
 
 """
-    ChiSqTest <: StatisticalTest
+    ChisqTest <: StatisticalTest
 
 Supertype for Chi-Square tests.
 """
-abstract type ChiSqTest <: StatisticalTest end
+abstract type ChisqTest <: StatisticalTest end
 
 """
-    GoodnessOfFitChiSqTest(df::Int) <: ChiSqTest
+    GoodnessOfFitChisqTest(df::Int) <: ChisqTest
 
 Chi-Square goodness of fit test for categorical variables with more than two levels.
 Here, the degrees of freedom `df` are `n_groups - 1`.
 """
-struct GoodnessOfFitChiSqTest <: ChiSqTest
+struct GoodnessOfFitChisqTest <: ChisqTest
     df::Int
+end
+
+"""
+    OneSampleChisqTest(ratio::Float64) <: ChisqTest
+
+One sample chi-square test, also known as the one way chi-square test.
+"""
+struct OneSampleChisqTest <: ChisqTest
+    ratio::Float64
 end
