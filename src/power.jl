@@ -19,39 +19,54 @@ Return `alpha` for which `quantile(d1, alpha) == quantile(d2, beta)` and `beta =
 function _alpha(d1::UnivariateDistribution, d2::UnivariateDistribution, power::Real, tail::Tail)
     beta = 1 - power
     critical_value = quantile(d2, beta)
+    @show critical_value
     except_right_tail = cdf(d1, critical_value)
     right_tail = 1 - except_right_tail
     return tail == one_tail ? right_tail : 2 * right_tail
 end
 
-distribution_parameters(T::TTest; n) = n - 1
-distribution_parameters(T::IndependentSamplesTTest; n) = n - 2 # n1 + n2 - 2
-distribution_parameters(T::ChisqTest; n) = T.df
-distribution_parameters(T::ANOVATest; n) = (T.n_groups - 1, (n - 1) * T.n_groups)
+_distribution_parameters(T::TTest; n) = n - 1
+_distribution_parameters(T::IndependentSamplesTTest; n) = n - 2 # n1 + n2 - 2
+_distribution_parameters(T::ConstantVarianceChisqTest; n) = n - 1
+_distribution_parameters(T::ChisqTest; n) = T.df
+_distribution_parameters(T::ANOVATest; n) = (T.n_groups - 1, (n - 1) * T.n_groups)
 
-noncentrality_parameter(T::TTest; es, n) = sqrt(n) * es
-noncentrality_parameter(T::IndependentSamplesTTest; es, n) = sqrt(n / 2) * es
-noncentrality_parameter(T::ChisqTest; es, n) = n * es^2
-noncentrality_parameter(T::ANOVATest; es, n) = n * es^2 * T.n_groups
+_noncentrality_parameter(T::TTest; es, n) = sqrt(n) * es
+_noncentrality_parameter(T::IndependentSamplesTTest; es, n) = sqrt(n / 2) * es
+_noncentrality_parameter(T::ChisqTest; es, n) = n * es^2
+_noncentrality_parameter(T::ANOVATest; es, n) = n * es^2 * T.n_groups
 
-noncentral_distribution(T::TTest) = NoncentralT
-noncentral_distribution(T::ChisqTest) = NoncentralChisq
-noncentral_distribution(T::FTest) = NoncentralF
+_distribution(T::TTest) = NoncentralT
+_distribution(T::ChisqTest) = NoncentralChisq
+_distribution(T::FTest) = NoncentralF
 
-tail(T::TTest) = T.tail
-tail(T::StatisticalTest) = one_tail
+_tail(T::TTest) = T.tail
+_tail(T::StatisticalTest) = one_tail
+
+function _distributions(T::ConstantVarianceChisqTest; v, es, n)
+    scale = es
+    D = _distribution(T)
+    d1 = D(v..., 0)
+    d2 = LocationScale(v, es, d1)
+    return d1, d2
+end
+
+function _distributions(T::StatisticalTest; v, es, n)
+    D = _distribution(T)
+    d1 = D(v..., 0)
+    λ = _noncentrality_parameter(T; es, n)
+    d2 = D(v..., λ)
+    return d1, d2
+end
 
 """
     get_power(T::StatisticalTest; es::Real, alpha::Real, n)
 
 """
 function get_power(T::StatisticalTest; es::Real, alpha::Real, n)
-    v = distribution_parameters(T; n)
-    λ = noncentrality_parameter(T; es, n)
-    d = noncentral_distribution(T)
-    d1 = d(v..., 0)
-    d2 = d(v..., λ)
-    return _power(d1, d2, alpha, tail(T))
+    v = _distribution_parameters(T; n)
+    d1, d2 = _distributions(T; v, es, n)
+    return _power(d1, d2, alpha, _tail(T))
 end
 
 """
@@ -59,12 +74,9 @@ end
 
 """
 function get_alpha(T::StatisticalTest; es::Real, power::Real, n)
-    v = distribution_parameters(T; n)
-    λ = noncentrality_parameter(T; es, n)
-    d = noncentral_distribution(T)
-    d1 = d(v..., 0)
-    d2 = d(v..., λ)
-    return _alpha(d1, d2, power, tail(T))
+    v = _distribution_parameters(T; n)
+    d1, d2 = _distributions(T; v, es, n)
+    return _alpha(d1, d2, power, _tail(T))
 end
 
 """
