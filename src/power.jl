@@ -41,6 +41,10 @@ noncentral_distribution(T::FTest) = NoncentralF
 tail(T::TTest) = T.tail
 tail(T::StatisticalTest) = one_tail
 
+"""
+    get_power(T::StatisticalTest; es::Real, alpha::Real, n)
+
+"""
 function get_power(T::StatisticalTest; es::Real, alpha::Real, n)
     v = distribution_parameters(T; n)
     λ = noncentrality_parameter(T; es, n)
@@ -50,6 +54,10 @@ function get_power(T::StatisticalTest; es::Real, alpha::Real, n)
     return _power(d1, d2, alpha, tail(T))
 end
 
+"""
+    get_alpha(T::StatisticalTest; es::Real, power::Real, n)
+
+"""
 function get_alpha(T::StatisticalTest; es::Real, power::Real, n)
     v = distribution_parameters(T; n)
     λ = noncentrality_parameter(T; es, n)
@@ -59,12 +67,20 @@ function get_alpha(T::StatisticalTest; es::Real, power::Real, n)
     return _alpha(d1, d2, power, tail(T))
 end
 
+"""
+    get_es(T::StatisticalTest; alpha::Real, power::Real, n)
+
+"""
 function get_es(T::StatisticalTest; alpha::Real, power::Real, n)
     f(es) = get_alpha(T; es, power, n) - alpha
     initial_value = 0.5
     return find_zero(f, initial_value)
 end
 
+"""
+    get_n(T::StatisticalTest; alpha::Real, power::Real, es::Real)
+
+"""
 function get_n(T::StatisticalTest; alpha::Real, power::Real, es::Real)
     f(n) = get_alpha(T; es, power, n) - alpha
     initial_value = 50

@@ -40,10 +40,6 @@ end
 Test a difference between two independent groups.
 When using this type, make sure that `n` states the total number of samples in both groups.
 Also known as a _independent means t-test_ or _independent samples t-test_.
-
-
-!!! note
-    foo bar
 """
 struct IndependentSamplesTTest <: TTest
     tail::Tail

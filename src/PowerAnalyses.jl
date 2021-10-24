@@ -26,7 +26,6 @@ include("types.jl")
 include("power.jl")
 
 export Tail, one_tail, two_tails
-export StatisticalTest
 export IndependentSamplesTTest, DependentSamplesTTest, OneSampleTTest
 export GoodnessOfFitChiSqTest
 export ANOVATest
