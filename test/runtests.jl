@@ -27,9 +27,13 @@ using Test:
     # Same as the one sample t-test.
     @test get_alpha(DependentSamplesTTest(two_tails); es, power, n) ≈ 0.067 atol=0.01
 
+    n_groups = 2
+    @test get_power(ANOVATest(n_groups); es, alpha, n) ≈ 0.998 atol=0.001
+
     df = 5
     @test get_power(GoodnessOfFitChiSqTest(df); es, alpha, n) ≈ 0.787 atol=0.001
     @test get_alpha(GoodnessOfFitChiSqTest(df); es, power, n) ≈ 0.253 atol=0.001
     @test get_es(GoodnessOfFitChiSqTest(df); alpha, power, n) ≈ 0.629 atol=0.001
     @test get_n(GoodnessOfFitChiSqTest(df); alpha, power, es) ≈ 79.12 atol=0.001
+
 end

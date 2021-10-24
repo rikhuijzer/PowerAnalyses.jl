@@ -40,6 +40,10 @@ end
 Test a difference between two independent groups.
 When using this type, make sure that `n` states the total number of samples in both groups.
 Also known as a _independent means t-test_ or _independent samples t-test_.
+
+
+!!! note
+    foo bar
 """
 struct IndependentSamplesTTest <: TTest
     tail::Tail
@@ -61,12 +65,15 @@ end
 Tests for the ratio between two variances.
 Mostly known for linear regressions such as ANOVAs, MANOVAs and ANCOVAs.
 
-!!! note
-    There is a lot of discussion about these kinds of tests:
-    https://stats.stackexchange.com/questions/59235.
-    So, it has lower priority to implement for now.
+!!! warning
+    There are lots of discussions about calculating the power for these kinds of tests.
+    For example, see https://stats.stackexchange.com/questions/59235.
 """
 abstract type FTest <: StatisticalTest end
+
+struct ANOVATest <: FTest
+    n_groups::Int
+end
 
 """
     ChiSqTest <: StatisticalTest

@@ -1,9 +1,8 @@
 module PowerAnalyses
 
 using Distributions:
-    Chisq,
-    FDist,
     NoncentralChisq,
+    NoncentralF,
     NoncentralT,
     TDist,
     UnivariateDistribution,
@@ -30,6 +29,7 @@ export Tail, one_tail, two_tails
 export StatisticalTest
 export IndependentSamplesTTest, DependentSamplesTTest, OneSampleTTest
 export GoodnessOfFitChiSqTest
+export ANOVATest
 export get_alpha, get_power, get_es, get_n
 
 end # module

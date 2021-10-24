@@ -24,34 +24,36 @@ function _alpha(d1::UnivariateDistribution, d2::UnivariateDistribution, power::R
     return tail == one_tail ? right_tail : 2 * right_tail
 end
 
-degrees_of_freedom(T::TTest; n) = n - 1
-# Where n is the total n over two groups.
-degrees_of_freedom(T::IndependentSamplesTTest; n) = n - 2 # n1 + n2 - 2
-degrees_of_freedom(T::ChiSqTest; n) = T.df
+distribution_parameters(T::TTest; n) = n - 1
+distribution_parameters(T::IndependentSamplesTTest; n) = n - 2 # n1 + n2 - 2
+distribution_parameters(T::ChiSqTest; n) = T.df
+distribution_parameters(T::ANOVATest; n) = (T.n_groups - 1, (n - 1) * T.n_groups)
 
 noncentrality_parameter(T::TTest; es, n) = sqrt(n) * es
 noncentrality_parameter(T::IndependentSamplesTTest; es, n) = sqrt(n / 2) * es
 noncentrality_parameter(T::ChiSqTest; es, n) = n * es^2
+noncentrality_parameter(T::ANOVATest; es, n) = n * es^2 * T.n_groups
 
-distribution(T::TTest) = NoncentralT
-distribution(T::ChiSqTest) = NoncentralChisq
+noncentral_distribution(T::TTest) = NoncentralT
+noncentral_distribution(T::ChiSqTest) = NoncentralChisq
+noncentral_distribution(T::FTest) = NoncentralF
 
 tail(T::TTest) = T.tail
-tail(T::ChiSqTest) = one_tail
+tail(T::StatisticalTest) = one_tail
 
 function get_power(T::StatisticalTest; es::Real, alpha::Real, n)
-    v = degrees_of_freedom(T; n)
+    v = distribution_parameters(T; n)
     λ = noncentrality_parameter(T; es, n)
-    d = distribution(T)
-    d1 = d(v, 0)
-    d2 = d(v, λ)
+    d = noncentral_distribution(T)
+    d1 = d(v..., 0)
+    d2 = d(v..., λ)
     return _power(d1, d2, alpha, tail(T))
 end
 
 function get_alpha(T::StatisticalTest; es::Real, power::Real, n)
-    v = degrees_of_freedom(T; n)
+    v = distribution_parameters(T; n)
     λ = noncentrality_parameter(T; es, n)
-    d = distribution(T)
+    d = noncentral_distribution(T)
     d1 = d(v, 0)
     d2 = d(v, λ)
     return _alpha(d1, d2, power, tail(T))
