@@ -56,20 +56,21 @@ struct DependentSamplesTTest <: TTest
 end
 
 """
+    PointBiserialTTest(tail::Tail) <: TTest
+
+Test a difference between a continous and binary variable for the null hypothesis that the effect size is 0.
+"""
+struct PointBiserialTTest <: TTest
+    tail::Tail
+end
+
+"""
     FTest <: StatisticalTest
 
 Tests for the ratio between two variances.
 Mostly known for linear regressions such as ANOVAs, MANOVAs and ANCOVAs.
-
-!!! warning
-    There are lots of discussions about calculating the power for these kinds of tests.
-    For example, see https://stats.stackexchange.com/questions/59235.
 """
 abstract type FTest <: StatisticalTest end
-
-struct ANOVATest <: FTest
-    n_groups::Int
-end
 
 """
     ChiSqTest <: StatisticalTest
