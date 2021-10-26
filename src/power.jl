@@ -25,16 +25,18 @@ function _alpha(d1::UnivariateDistribution, d2::UnivariateDistribution, power::R
     return tail == one_tail ? right_tail : 2 * right_tail
 end
 
-_distribution_parameters(T::TTest; n) = n - 1
 _distribution_parameters(T::IndependentSamplesTTest; n) = n - 2 # n1 + n2 - 2
+_distribution_parameters(T::PointBiserialTTest; n) = n - 2
+_distribution_parameters(T::TTest; n) = n - 1
 _distribution_parameters(T::ConstantVarianceChisqTest; n) = n - 1
 _distribution_parameters(T::ChisqTest; n) = T.df
-_distribution_parameters(T::ANOVATest; n) = (T.n_groups - 1, (n - 1) * T.n_groups)
+# _distribution_parameters(T::ANOVATest; n) = (T.n_groups - 1, (n - 1) * T.n_groups)
 
-_noncentrality_parameter(T::TTest; es, n) = sqrt(n) * es
 _noncentrality_parameter(T::IndependentSamplesTTest; es, n) = sqrt(n / 2) * es
+_noncentrality_parameter(T::PointBiserialTTest; es, n) = sqrt(es^2 / (1 - es^2)) * sqrt(n)
+_noncentrality_parameter(T::TTest; es, n) = sqrt(n) * es
 _noncentrality_parameter(T::ChisqTest; es, n) = n * es^2
-_noncentrality_parameter(T::ANOVATest; es, n) = n * es^2 * T.n_groups
+# _noncentrality_parameter(T::ANOVATest; es, n) = n * es^2 * T.n_groups
 
 _distribution(T::TTest) = NoncentralT
 _distribution(T::ChisqTest) = NoncentralChisq
