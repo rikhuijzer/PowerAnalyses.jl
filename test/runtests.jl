@@ -30,11 +30,12 @@ using Test: @testset, @test
     # @test get_alpha(ANOVATest(n_groups); es, power, n) ≈ 0.001 atol=0.001
 
     df = 5
-    @test get_power(GoodnessOfFitChiSqTest(df); es, alpha, n) ≈ 0.787 atol=0.001
-    @test get_alpha(GoodnessOfFitChiSqTest(df); es, power, n) ≈ 0.253 atol=0.001
-    @test get_es(GoodnessOfFitChiSqTest(df); alpha, power, n) ≈ 0.629 atol=0.001
-    @test get_n(GoodnessOfFitChiSqTest(df); alpha, power, es) ≈ 79.12 atol=0.001
+    @test get_power(GoodnessOfFitChisqTest(df); es, alpha, n) ≈ 0.787 atol=0.001
+    @test get_alpha(GoodnessOfFitChisqTest(df); es, power, n) ≈ 0.253 atol=0.001
+    @test get_es(GoodnessOfFitChisqTest(df); alpha, power, n) ≈ 0.629 atol=0.001
+    @test get_n(GoodnessOfFitChisqTest(df); alpha, power, es) ≈ 79.12 atol=0.001
+
+    # @test get_alpha(ConstantVarianceChisqTest(one_tail); es, power, n) ≈ 0.038 atol=0.001
 
     # TODO: Add test for PointBiseralTTest
-
 end

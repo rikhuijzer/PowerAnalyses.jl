@@ -15,6 +15,9 @@ The lowest level types are all structs because some of them need to hold values.
 A parameter can become a struct field when it's never required to infer the parameter from the other parameters.
 For example, it doesn't make sense to use a power analysis to check whether one should use a one tailed or two tailed t-test.
 As another example, it does make sense to use a power analysis to check the required sample size `n` (an a priori power analysis).
+
+See the G*Power 3 paper for many parameters and noncentrality parameters
+(https://doi.org/10.3758/BF03193146).
 """
 abstract type StatisticalTest end
 
@@ -73,18 +76,28 @@ Mostly known for linear regressions such as ANOVAs, MANOVAs and ANCOVAs.
 abstract type FTest <: StatisticalTest end
 
 """
-    ChiSqTest <: StatisticalTest
+    ChisqTest <: StatisticalTest
 
 Supertype for Chi-Square tests.
 """
-abstract type ChiSqTest <: StatisticalTest end
+abstract type ChisqTest <: StatisticalTest end
 
 """
-    GoodnessOfFitChiSqTest(df::Int) <: ChiSqTest
+    GoodnessOfFitChisqTest(df::Int) <: ChisqTest
 
-Chi-Square goodness of fit test for categorical variables with more than two levels.
+Chi-square goodness of fit test for categorical variables with more than two levels.
 Here, the degrees of freedom `df` are `n_groups - 1`.
 """
-struct GoodnessOfFitChiSqTest <: ChiSqTest
+struct GoodnessOfFitChisqTest <: ChisqTest
     df::Int
+end
+
+"""
+    ConstantVarianceChisqTest(tail::Tail) <: ChisqTest
+
+Chi-square test for determining whether the population variance σ² equals a specific (constant) value.
+The effect size is the variance `ratio` and defined as `ratio = σ² / c`.
+"""
+struct ConstantVarianceChisqTest <: ChisqTest
+    tail::Tail
 end
