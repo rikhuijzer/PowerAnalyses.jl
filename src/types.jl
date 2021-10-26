@@ -76,6 +76,24 @@ Mostly known for linear regressions such as ANOVAs, MANOVAs and ANCOVAs.
 abstract type FTest <: StatisticalTest end
 
 """
+    ConstantVectorHotellingTsqTest(n_response_variables::Int) <: FTest
+
+Hotelling's T-square $T^2$ to test whether a vector of means differ from a constant mean vector.
+"""
+struct ConstantVectorHotellingTsqTest <: FTest
+    n_response_variables::Int
+end
+
+"""
+    TwoVectorsHotellingTsqTest(n_response_variables::Int) <: FTest
+
+Hotelling's T-square $T^2$ to test whether two mean vectors differ.
+"""
+struct TwoVectorsHotellingTsqTest <: FTest
+    n_response_variables::Int
+end
+
+"""
     ChisqTest <: StatisticalTest
 
 Supertype for Chi-Square tests.
