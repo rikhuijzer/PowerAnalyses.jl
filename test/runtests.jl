@@ -30,8 +30,8 @@ using Test: @testset, @test
     # @test get_alpha(ANOVATest(n_groups); es, power, n) ≈ 0.001 atol=0.001
 
     n_variables = 2
-    @test get_alpha(ConstantVectorHotellingTsqTest(n_variables); es, power, n) ≈ 0.001 atol=0.001
-    @test get_alpha(TwoVectorsHotellingTsqTest(n_variables); es, power, n) ≈ 0.001 atol=0.001
+    @test get_alpha(ConstantVectorHotellingTsqTest(n_variables); es, power, n) ≈ 0.132 atol=0.001
+    @test get_alpha(TwoVectorsHotellingTsqTest(n_variables); es, power, n=[n, n]) ≈ 0.511 atol=0.001
 
     df = 5
     @test get_power(GoodnessOfFitChisqTest(df); es, alpha, n) ≈ 0.787 atol=0.001
