@@ -36,7 +36,6 @@ function _distribution_parameters(T::TwoVectorsHotellingTsqTest, n::AbstractVect
 end
 _distribution_parameters(T::ConstantVarianceChisqTest, n) = n - 1
 _distribution_parameters(T::ChisqTest, n) = T.df
-# _distribution_parameters(T::ANOVATest, n) = (T.n_groups - 1, (n - 1) * T.n_groups)
 
 _noncentrality_parameter(T::IndependentSamplesTTest, es, n) = sqrt(n / 2) * es
 _noncentrality_parameter(T::PointBiserialTTest, es, n) = sqrt(es^2 / (1 - es^2)) * sqrt(n)
@@ -47,7 +46,6 @@ end
 _noncentrality_parameter(T::FTest, es, n::AbstractVector) = sum(n) * es^2
 _noncentrality_parameter(T::FTest, es, n) = n * es^2
 _noncentrality_parameter(T::ChisqTest, es, n) = n * es^2
-# _noncentrality_parameter(T::ANOVATest, es, n) = n * es^2 * T.n_groups
 
 _distribution(T::TTest) = NoncentralT
 _distribution(T::ChisqTest) = NoncentralChisq
