@@ -19,7 +19,6 @@ Return `alpha` for which `quantile(d0, alpha) == quantile(d1, beta)` and `beta =
 function _alpha(d0::UnivariateDistribution, d1::UnivariateDistribution, power::Real, tail::Tail)
     beta = 1 - power
     critical_value = quantile(d1, beta)
-    @show critical_value
     except_right_tail = cdf(d0, critical_value)
     right_tail = 1 - except_right_tail
     return tail == one_tail ? right_tail : 2 * right_tail
