@@ -60,10 +60,3 @@ julia> get_alpha(OneSampleTTest(two_tails); power, n, es)
 ```
 
 Close enough.
-
-This number is actually much more accurate than G\*Power, you can check it for yourself if you want.
-The reason seems to be that the creators of G\*Power had to write their own root finding logic because they are using C++.
-In Julia, I could just use the amazing [Roots.jl](https://github.com/JuliaMath/Roots.jl) package 🥳.
-
-By the way, I don't mean to be negative about G\*Power in any way.
-It's a great tool with nice visualizations and their paper (Faul et al, [2007](https://doi.org/10.3758/BF03193146)) made it extremely easy to create this package.
