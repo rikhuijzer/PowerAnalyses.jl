@@ -26,9 +26,8 @@ include("power.jl")
 
 export Tail, one_tail, two_tails
 export IndependentSamplesTTest, DependentSamplesTTest, OneSampleTTest
-export ConstantVectorHotellingTsqTest, TwoVectorsHotellingTsqTest
+export OneWayANOVA, ConstantVectorHotellingTsqTest, TwoVectorsHotellingTsqTest
 export GoodnessOfFitChisqTest, ConstantVarianceChisqTest
-export ANOVATest
 export get_alpha, get_power, get_es, get_n
 
 end # module

@@ -18,6 +18,9 @@ As another example, it does make sense to use a power analysis to check the requ
 
 See the G*Power 3 paper for many parameters and noncentrality parameters
 (https://doi.org/10.3758/BF03193146).
+
+The huge collection of types isn't making this code very pretty.
+Unfortunately, it seems to be a requirement when working in the frequentist world.
 """
 abstract type StatisticalTest end
 
@@ -74,6 +77,16 @@ Tests for the ratio between two variances.
 Mostly known for linear regressions such as ANOVAs, MANOVAs and ANCOVAs.
 """
 abstract type FTest <: StatisticalTest end
+
+"""
+    OneWayANOVA(n_groups::Int) <: FTest
+
+Test whether multiple means are equal.
+Also known as a one-way fixed effects ANOVA.
+"""
+struct OneWayANOVA <: FTest
+    n_groups::Int
+end
 
 """
     ConstantVectorHotellingTsqTest(n_response_variables::Int) <: FTest
