@@ -21,15 +21,13 @@ let
     @doc text PowerAnalyses
 end
 
-const PARAMS = [:es, :alpha, :power, :n]
-
 include("types.jl")
 include("power.jl")
 
 export Tail, one_tail, two_tails
 export IndependentSamplesTTest, DependentSamplesTTest, OneSampleTTest
+export OneWayANOVA, ConstantVectorHotellingTsqTest, TwoVectorsHotellingTsqTest
 export GoodnessOfFitChisqTest, ConstantVarianceChisqTest
-export ANOVATest
 export get_alpha, get_power, get_es, get_n
 
 end # module

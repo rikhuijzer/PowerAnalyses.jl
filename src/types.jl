@@ -18,6 +18,9 @@ As another example, it does make sense to use a power analysis to check the requ
 
 See the G*Power 3 paper for many parameters and noncentrality parameters
 (https://doi.org/10.3758/BF03193146).
+
+The huge collection of types isn't making this code very pretty.
+Unfortunately, it seems to be a requirement when working in the frequentist world.
 """
 abstract type StatisticalTest end
 
@@ -76,6 +79,34 @@ Mostly known for linear regressions such as ANOVAs, MANOVAs and ANCOVAs.
 abstract type FTest <: StatisticalTest end
 
 """
+    OneWayANOVA(n_groups::Int) <: FTest
+
+Test whether multiple means are equal.
+Also known as a one-way fixed effects ANOVA.
+"""
+struct OneWayANOVA <: FTest
+    n_groups::Int
+end
+
+"""
+    ConstantVectorHotellingTsqTest(n_response_variables::Int) <: FTest
+
+Hotelling's T-square ``T^2`` to test whether a vector of means differ from a constant mean vector.
+"""
+struct ConstantVectorHotellingTsqTest <: FTest
+    n_response_variables::Int
+end
+
+"""
+    TwoVectorsHotellingTsqTest(n_response_variables::Int) <: FTest
+
+Hotelling's T-square ``T^2`` to test whether two mean vectors differ.
+"""
+struct TwoVectorsHotellingTsqTest <: FTest
+    n_response_variables::Int
+end
+
+"""
     ChisqTest <: StatisticalTest
 
 Supertype for Chi-Square tests.
@@ -97,6 +128,10 @@ end
 
 Chi-square test for determining whether the population variance σ² equals a specific (constant) value.
 The effect size is the variance `ratio` and defined as `ratio = σ² / c`.
+
+!!! warn
+    The result of this test is slightly different from G*Power 3.1.9.7 even though the code here is based on the paper.
+    Maybe, G*Power 3 has a different calculation for distribution scaling.
 """
 struct ConstantVarianceChisqTest <: ChisqTest
     tail::Tail

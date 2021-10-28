@@ -19,7 +19,6 @@ Return `alpha` for which `quantile(d0, alpha) == quantile(d1, beta)` and `beta =
 function _alpha(d0::UnivariateDistribution, d1::UnivariateDistribution, power::Real, tail::Tail)
     beta = 1 - power
     critical_value = quantile(d1, beta)
-    @show critical_value
     except_right_tail = cdf(d0, critical_value)
     right_tail = 1 - except_right_tail
     return tail == one_tail ? right_tail : 2 * right_tail
@@ -28,6 +27,13 @@ end
 _distribution_parameters(T::IndependentSamplesTTest, n) = n - 2 # n1 + n2 - 2
 _distribution_parameters(T::PointBiserialTTest, n) = n - 2
 _distribution_parameters(T::TTest, n) = n - 1
+function _distribution_parameters(T::ConstantVectorHotellingTsqTest, n)
+    return (T.n_response_variables, n - T.n_response_variables)
+end
+_distribution_parameters(T::OneWayANOVA, n) = (T.n_groups - 1, n - T.n_groups)
+function _distribution_parameters(T::TwoVectorsHotellingTsqTest, n::AbstractVector)
+    return (T.n_response_variables, sum(n) - T.n_response_variables - 1)
+end
 _distribution_parameters(T::ConstantVarianceChisqTest, n) = n - 1
 _distribution_parameters(T::ChisqTest, n) = T.df
 # _distribution_parameters(T::ANOVATest, n) = (T.n_groups - 1, (n - 1) * T.n_groups)
@@ -35,6 +41,11 @@ _distribution_parameters(T::ChisqTest, n) = T.df
 _noncentrality_parameter(T::IndependentSamplesTTest, es, n) = sqrt(n / 2) * es
 _noncentrality_parameter(T::PointBiserialTTest, es, n) = sqrt(es^2 / (1 - es^2)) * sqrt(n)
 _noncentrality_parameter(T::TTest, es, n) = sqrt(n) * es
+function _noncentrality_parameter(T::TwoVectorsHotellingTsqTest, es, n::AbstractVector)
+    return es^2 * ((n[1] * n[2]) / (n[1] + n[2]))
+end
+_noncentrality_parameter(T::FTest, es, n::AbstractVector) = sum(n) * es^2
+_noncentrality_parameter(T::FTest, es, n) = n * es^2
 _noncentrality_parameter(T::ChisqTest, es, n) = n * es^2
 # _noncentrality_parameter(T::ANOVATest, es, n) = n * es^2 * T.n_groups
 

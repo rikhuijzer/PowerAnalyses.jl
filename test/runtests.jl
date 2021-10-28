@@ -6,6 +6,7 @@ using Test: @testset, @test
     alpha = 0.05
     power = 0.95
     n = 50
+    N = [n, n]
 
     # Values are obtained via `pwr` version 1.3 and `G*Power` version 3.1.9.7.
     @test get_alpha(OneSampleTTest(two_tails); es, power, n) ≈ 0.067 atol=0.001
@@ -26,8 +27,11 @@ using Test: @testset, @test
     @test get_alpha(DependentSamplesTTest(two_tails); es, power, n) ≈ 0.067 atol=0.01
 
     n_groups = 2
-    # @test get_power(ANOVATest(n_groups); es, alpha, n) ≈ 0.998 atol=0.001
-    # @test get_alpha(ANOVATest(n_groups); es, power, n) ≈ 0.001 atol=0.001
+    @test get_alpha(OneWayANOVA(n_groups); es, power, n) ≈ 0.067 atol=0.001
+
+    n_variables = 2
+    @test get_alpha(ConstantVectorHotellingTsqTest(n_variables); es, power, n) ≈ 0.132 atol=0.001
+    @test get_alpha(TwoVectorsHotellingTsqTest(n_variables); es, power, n=N) ≈ 0.511 atol=0.001
 
     df = 5
     @test get_power(GoodnessOfFitChisqTest(df); es, alpha, n) ≈ 0.787 atol=0.001
@@ -35,7 +39,7 @@ using Test: @testset, @test
     @test get_es(GoodnessOfFitChisqTest(df); alpha, power, n) ≈ 0.629 atol=0.001
     @test get_n(GoodnessOfFitChisqTest(df); alpha, power, es) ≈ 79.12 atol=0.001
 
-    # @test get_alpha(ConstantVarianceChisqTest(one_tail); es, power, n) ≈ 0.038 atol=0.001
+    @test get_alpha(ConstantVarianceChisqTest(one_tail); es, power, n) ≈ 0.038 atol=0.02
 
     # TODO: Add test for PointBiseralTTest
 end
