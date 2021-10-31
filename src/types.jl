@@ -131,7 +131,7 @@ The effect size is the variance `ratio` and defined as `ratio = σ² / c`.
 
 !!! warn
     The result of this test is slightly different from G*Power 3.1.9.7 even though the code here is based on the paper.
-    Maybe, G*Power 3 has a different calculation for distribution scaling.
+    It could be that G*Power 3 has a different calculation for distribution scaling.
 """
 struct ConstantVarianceChisqTest <: ChisqTest
     tail::Tail

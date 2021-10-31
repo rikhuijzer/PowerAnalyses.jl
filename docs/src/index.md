@@ -29,7 +29,7 @@ get_n(T; alpha, power, es)
 
 # Functions
 
-The functions for determining the parameters take the following parameters:
+The functions for determining the parameters take the following arguments:
 
 ```@docs
 get_power
