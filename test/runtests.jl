@@ -28,6 +28,8 @@ using Test: @testset, @test
 
     n_groups = 2
     @test get_alpha(OneWayANOVA(n_groups); es, power, n) ≈ 0.067 atol=0.001
+    df = 10
+    @test get_alpha(MultifactorFixedEffectsANOVA(n_groups, df); es, power, n) ≈ 0.461 atol=0.01
 
     n_variables = 2
     @test get_alpha(ConstantVectorHotellingTsqTest(n_variables); es, power, n) ≈ 0.132 atol=0.001

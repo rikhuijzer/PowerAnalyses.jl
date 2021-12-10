@@ -34,12 +34,14 @@ _distribution_parameters(T::OneWayANOVA, n) = (T.n_groups - 1, n - T.n_groups)
 function _distribution_parameters(T::TwoVectorsHotellingTsqTest, n::AbstractVector)
     return (T.n_response_variables, sum(n) - T.n_response_variables - 1)
 end
+_distribution_parameters(T::MultifactorFixedEffectsANOVA, n) = (T.df, n - T.n_groups)
 _distribution_parameters(T::ConstantVarianceChisqTest, n) = n - 1
 _distribution_parameters(T::ChisqTest, n) = T.df
 
 _noncentrality_parameter(T::IndependentSamplesTTest, es, n) = sqrt(n / 2) * es
 _noncentrality_parameter(T::PointBiserialTTest, es, n) = sqrt(es^2 / (1 - es^2)) * sqrt(n)
 _noncentrality_parameter(T::TTest, es, n) = sqrt(n) * es
+_noncentrality_parameter(T::MultifactorFixedEffectsANOVA, es, n) = es^2 * n
 function _noncentrality_parameter(T::TwoVectorsHotellingTsqTest, es, n::AbstractVector)
     return es^2 * ((n[1] * n[2]) / (n[1] + n[2]))
 end

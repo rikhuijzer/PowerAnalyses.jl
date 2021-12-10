@@ -89,6 +89,16 @@ struct OneWayANOVA <: FTest
 end
 
 """
+    MultifactorFixedEffectsANOVA(n_groups::Int, df::Int) <: FTest
+
+Fixed effects, multifactor and planned comparisons ANOVA with `n_groups` total groups in the design and `df` degrees of freedom in the tested effect.
+"""
+struct MultifactorFixedEffectsANOVA <: FTest
+    n_groups::Int
+    df::Int
+end
+
+"""
     ConstantVectorHotellingTsqTest(n_response_variables::Int) <: FTest
 
 Hotelling's T-square ``T^2`` to test whether a vector of means differ from a constant mean vector.
