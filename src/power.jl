@@ -30,6 +30,9 @@ _distribution_parameters(T::TTest, n) = n - 1
 function _distribution_parameters(T::DeviationFromZeroMultipleRegression, n)
     return (T.n_predictors, n - T.n_predictors - 1)
 end
+function _distribution_parameters(T::IncreaseMultipleRegression, n)
+    return (T.n_tested_predictors, n - T.n_predictors - 1)
+end
 _distribution_parameters(T::OneWayANOVA, n) = (T.n_groups - 1, n - T.n_groups)
 function _distribution_parameters(T::ConstantVectorHotellingTsqTest, n)
     return (T.n_response_variables, n - T.n_response_variables)

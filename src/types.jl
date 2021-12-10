@@ -89,6 +89,16 @@ struct DeviationFromZeroMultipleRegression <: FTest
 end
 
 """
+    IncreaseMultipleRegression(n_predictors::Int, n_tested_predictors::Int) <: FTest
+
+Increase of R² for multiple regression with total number of predictors `n_predictors` and number of tested predictors `n_tested_predictors`.
+"""
+struct IncreaseMultipleRegression <: FTest
+    n_predictors::Int
+    n_tested_predictors::Int
+end
+
+"""
     OneWayANOVA(n_groups::Int) <: FTest
 
 Test whether multiple means are equal.

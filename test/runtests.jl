@@ -29,6 +29,8 @@ using Test: @testset, @test
     n_predictors = 8
     # Beware that G*Power assumes input to be f² and not f.
     @test get_alpha(DeviationFromZeroMultipleRegression(n_predictors); es=sqrt(es), power, n) ≈ 0.072 atol=0.1
+    n_tested_predictors = 6
+    @test get_alpha(IncreaseMultipleRegression(n_predictors, n_tested_predictors); es=sqrt(es), power, n) ≈ 0.043 atol=0.1
     n_groups = 2
     @test get_alpha(OneWayANOVA(n_groups); es, power, n) ≈ 0.067 atol=0.001
     df = 10
