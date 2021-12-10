@@ -1,7 +1,7 @@
 """
     Tail
 
-Tail used in the test.
+Tail used in some of the tests.
 Can be `one_tail` or `two_tails`.
 """
 @enum Tail one_tail two_tails
@@ -166,3 +166,4 @@ The effect size is the variance `ratio` and defined as `ratio = σ² / c`.
 struct ConstantVarianceChisqTest <: ChisqTest
     tail::Tail
 end
+

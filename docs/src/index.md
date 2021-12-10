@@ -2,7 +2,7 @@
 
 Statistical power analyses.
 
-# Getting started
+## Getting started
 
 
 This package allows you to determine one of the following parameters:
@@ -27,7 +27,7 @@ T = OneSampleTTest(two_tails)
 get_n(T; alpha, power, es)
 ```
 
-# Functions
+## Functions
 
 The functions for determining the parameters take the following arguments:
 
@@ -38,9 +38,15 @@ get_es
 get_n
 ```
 
-# Types
+## Tests
 
-Next to the `OneSampleTTest` described above, the following other tests are also implemented.
+```@eval
+# Don't try to be clever here and generate @ref links.
+# Documenter.jl will not parse them as Markdown or whatever.
+# Evaluation appears to be happening very late in the process.
+```
+
+The following tests are implemented:
 
 ```@autodocs
 Modules = [PowerAnalyses]
