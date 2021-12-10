@@ -27,10 +27,13 @@ end
 _distribution_parameters(T::IndependentSamplesTTest, n) = n - 2 # n1 + n2 - 2
 _distribution_parameters(T::PointBiserialTTest, n) = n - 2
 _distribution_parameters(T::TTest, n) = n - 1
+function _distribution_parameters(T::DeviationFromZeroMultipleRegression, n)
+    return (T.n_predictors, n - T.n_predictors - 1)
+end
+_distribution_parameters(T::OneWayANOVA, n) = (T.n_groups - 1, n - T.n_groups)
 function _distribution_parameters(T::ConstantVectorHotellingTsqTest, n)
     return (T.n_response_variables, n - T.n_response_variables)
 end
-_distribution_parameters(T::OneWayANOVA, n) = (T.n_groups - 1, n - T.n_groups)
 function _distribution_parameters(T::TwoVectorsHotellingTsqTest, n::AbstractVector)
     return (T.n_response_variables, sum(n) - T.n_response_variables - 1)
 end
@@ -89,6 +92,7 @@ end
 """
     get_power(T::StatisticalTest; es::Real, alpha::Real, n)
 
+Return the power for some test `T` with effect size `es`, required significance level `alpha` and sample size `n`.
 """
 function get_power(T::StatisticalTest; es::Real, alpha::Real, n)
     v = _distribution_parameters(T, n)
@@ -100,6 +104,7 @@ end
 """
     get_alpha(T::StatisticalTest; es::Real, power::Real, n)
 
+Return the significance level for some test `T` with effect size `es`, power `power` and sample size `n`.
 """
 function get_alpha(T::StatisticalTest; es::Real, power::Real, n)
     v = _distribution_parameters(T, n)
@@ -111,6 +116,7 @@ end
 """
     get_es(T::StatisticalTest; alpha::Real, power::Real, n)
 
+Return the minimum effect size for some test `T` with significance level `alpha`, power `power` and sample size `n`.
 """
 function get_es(T::StatisticalTest; alpha::Real, power::Real, n)
     f(es) = get_alpha(T; es, power, n) - alpha
@@ -121,6 +127,7 @@ end
 """
     get_n(T::StatisticalTest; alpha::Real, power::Real, es::Real)
 
+Return minimum sample size `n` for some test `T` with significance level `alpha`, power `power` and effect size `es`.
 """
 function get_n(T::StatisticalTest; alpha::Real, power::Real, es::Real)
     f(n) = get_alpha(T; es, power, n) - alpha

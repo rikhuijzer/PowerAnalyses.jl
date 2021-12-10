@@ -79,6 +79,16 @@ Mostly known for linear regressions such as ANOVAs, MANOVAs and ANCOVAs.
 abstract type FTest <: StatisticalTest end
 
 """
+    DeviationFromZeroMultipleRegression(n_predictors::Int) <: FTest
+
+Deviation of R² from zero for multiple regression with `n_predictors`.
+Combined with this test, the sample size `n` means the **total** sample size.
+"""
+struct DeviationFromZeroMultipleRegression <: FTest
+    n_predictors::Int
+end
+
+"""
     OneWayANOVA(n_groups::Int) <: FTest
 
 Test whether multiple means are equal.

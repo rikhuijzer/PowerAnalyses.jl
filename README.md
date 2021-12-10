@@ -60,3 +60,8 @@ julia> get_alpha(OneSampleTTest(two_tails); power, n, es)
 ```
 
 Close enough.
+
+## Validity
+
+For each test in this package, the result provided by this package is verified by comparing it to either `G*Power` or `pwr` see `test/runtests.jl` for details.
+

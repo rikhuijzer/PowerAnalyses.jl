@@ -30,6 +30,7 @@ export IndependentSamplesTTest
 export DependentSamplesTTest
 export OneSampleTTest
 
+export DeviationFromZeroMultipleRegression
 export OneWayANOVA
 export MultifactorFixedEffectsANOVA
 export ConstantVectorHotellingTsqTest
