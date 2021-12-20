@@ -29,6 +29,10 @@ See <https://rikhuijzer.github.io/PowerAnalyses.jl/stable/> for more information
 [docs-img]: https://img.shields.io/badge/Docs-stable-blue.svg
 [docs-url]: https://rikhuijzer.github.io/PowerAnalyses.jl/stable/
 
+## Validity
+
+For each test in this package, the result provided by this package is verified by comparing it to either `G*Power` or `pwr` see `test/runtests.jl` for details.
+
 ## Usage
 
 The package defines `get_alpha`, `get_power`, `get_es` and `get_n`.
@@ -60,8 +64,3 @@ julia> get_alpha(OneSampleTTest(two_tails); power, n, es)
 ```
 
 Close enough.
-
-## Validity
-
-For each test in this package, the result provided by this package is verified by comparing it to either `G*Power` or `pwr` see `test/runtests.jl` for details.
-
