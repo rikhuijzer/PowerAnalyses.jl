@@ -8,6 +8,8 @@ Statistical power analyses
 ## Installation
 
 ```julia
+julia> ]
+
 pkg> add PowerAnalyses
 ```
 
