@@ -27,8 +27,9 @@ jobs:
         shell: julia --color=yes {0}
         run: |
           using Pkg: Pkg
+          dir = pwd()
           Pkg.activate("docs")
-          include("docs/make.jl")
+          include(joinpath(dir, "docs", "make.jl"))
 
       - name: Deploy to gh-pages branch
         if: ${{ github.event_name != 'pull_request' }}
