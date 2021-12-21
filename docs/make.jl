@@ -1,6 +1,7 @@
 using Documenter:
     DocMeta,
     HTML,
+    asset,
     deploydocs,
     makedocs
 using PowerAnalyses
@@ -16,7 +17,18 @@ sitename = "PowerAnalyses.jl"
 pages = [
     "PowerAnalyses" => "index.md"
 ]
-format = HTML(; prettyurls = get(ENV, "CI", nothing) == "true")
+
+# Thanks to <https://github.com/JuliaDocs/Documenter.jl/pull/1706>.
+attributes = Dict(
+    :defer => "",
+    :id => "pirschjs",
+    Symbol("data-code") => "y1t1d27IvMPpcjUcbL5GxEfmfwqKxaQ3",
+)
+assets = [
+    asset("https://api.pirsch.io/pirsch.js"; attributes, class=:js)
+]
+prettyurls = get(ENV, "CI", nothing) == "true"
+format = HTML(; assets, prettyurls)
 modules = [PowerAnalyses]
 strict = true
 checkdocs = :none
