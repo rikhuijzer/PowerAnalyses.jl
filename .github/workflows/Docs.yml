@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-    tags: '*'
   pull_request:
   workflow_dispatch:
 
@@ -14,8 +13,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: julia-actions/julia-buildpkg@latest
-      - uses: julia-actions/julia-docdeploy@latest
-        env:
+        with:
+          persist-credentials: false
+
+      - name: Instantiate docs/
+        shell: julia --color=yes {0}
+        run: |
+          using Pkg: Pkg
+          Pkg.activate("docs")
+          Pkg.instantiate()
+
+      - name: Build docs
+        shell: julia --color=yes {0}
+        run: |
+          using Pkg: Pkg
+          Pkg.activate("docs")
+          include("docs/make.jl")
+
+      - name: Deploy to gh-pages branch
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}
+          publish_dir: ./docs/build/
+          cname: poweranalyses.org
+
+
