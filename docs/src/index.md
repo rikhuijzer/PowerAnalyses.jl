@@ -4,8 +4,15 @@ Statistical power analyses.
 
 ## Getting started
 
+This package can be installed via:
 
-This package allows you to determine one of the following parameters:
+```julia
+using Pkg
+
+Pkg.add("PowerAnalyses")
+```
+
+and allows you to determine one of the following parameters:
 
 - sample size `n`
 - `power`
