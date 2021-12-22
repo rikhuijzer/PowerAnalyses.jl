@@ -4,7 +4,7 @@ Statistical power analyses in Julia.
 
 This package is similar to G\*Power and R's `pwr` package.
 Unlike G\*Power, PowerAnalyses is open source and can, therefore, be more easily improved and verified.
-Compared to `pwr`, this package contains more analyses and thanks to Julia's multiple dispatch the code of this package is much cleaner.
+Compared to `pwr`, this package contains more analyses and thanks to Julia's multiple dispatch the code of this package is much cleaner, that is, less prone to errors.
 
 ## Getting started
 
