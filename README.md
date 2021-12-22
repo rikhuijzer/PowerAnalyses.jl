@@ -3,14 +3,14 @@
 [![CI Test][ci-img]][ci-url]
 [![Documentation][docs-img]][docs-url]
 
-Statistical power analyses
+Statistical power analyses in Julia
 
 ## Installation
 
 ```julia
-julia> ]
+using Pkg
 
-pkg> add PowerAnalyses
+Pkg.add("PowerAnalyses")
 ```
 
 ## Introduction
