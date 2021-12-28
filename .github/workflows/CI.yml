@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: julia-actions/cache@905462d72fb6b82bde68a96ec6cc028fa1892b7c
+      - uses: rikhuijzer/cache@f49b1f3609b277ad951bb5841cb3f5330cc76e2d
         with:
           cache-registry: "true"
           cache-name: "3234214123"
