@@ -11,7 +11,7 @@ jobs:
   Test:
     name: Test
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 15
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -23,10 +23,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: rikhuijzer/cache@f49b1f3609b277ad951bb5841cb3f5330cc76e2d
+      - uses: julia-actions/cache@v1
         with:
           cache-registries: "true"
-          cache-name: "3234214144"
+          cache-name: "3234214145"
       - uses: julia-actions/setup-julia@v1
         with:
           version: ${{ matrix.version }}
