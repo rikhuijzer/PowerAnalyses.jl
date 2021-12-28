@@ -26,7 +26,7 @@ jobs:
       - uses: rikhuijzer/cache@f49b1f3609b277ad951bb5841cb3f5330cc76e2d
         with:
           cache-registries: "true"
-          cache-name: "3234214123"
+          cache-name: "3234214144"
       - uses: julia-actions/setup-julia@v1
         with:
           version: ${{ matrix.version }}
