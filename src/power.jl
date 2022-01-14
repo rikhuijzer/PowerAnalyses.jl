@@ -88,7 +88,7 @@ end
 function _alternative_distribution(T::ConstantVarianceChisqTest, v, es, n)
     D = _distribution(T)
     d1 = D(v..., 0)
-    d2 = LocationScale(v, es, d1)
+    d2 = v + es * d1
     return d2
 end
 
