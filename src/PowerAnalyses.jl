@@ -1,7 +1,6 @@
 module PowerAnalyses
 
 using Distributions:
-    LocationScale,
     NoncentralChisq,
     NoncentralF,
     NoncentralT,
