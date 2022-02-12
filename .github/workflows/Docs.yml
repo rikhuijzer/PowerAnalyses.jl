@@ -43,10 +43,10 @@ jobs:
           run(`git clone --depth=1 $url $clone`)
           from = "."
           to = joinpath(clone, "public", "PowerAnalyses.jl")
-          # To avoid Git submodules.
-          rm(joinpath(to, ".git"); recursive=true)
           mkpath(to)
           cp(from, to; force=true)
+          # To avoid Git submodules.
+          rm(joinpath(to, ".git"); recursive=true)
           cd(clone) do
               run(`git add .`)
               run(`git config --global user.email 't.h.huijzer@rug.nl'`)
