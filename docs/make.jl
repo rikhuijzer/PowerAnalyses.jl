@@ -16,7 +16,6 @@ DocMeta.setdocmeta!(
 sitename = "PowerAnalyses.jl"
 pages = [
     "PowerAnalyses" => "index.md"
-    "Test page" => "test.md"
 ]
 
 prettyurls = get(ENV, "CI", nothing) == "true"

@@ -2,16 +2,12 @@
 
 [![CI Test][ci-img]][ci-url]
 [![Documentation][docs-img]][docs-url]
-[![Analytics][analytics-img]][analytics-url]
 
 [ci-img]: https://github.com/rikhuijzer/PowerAnalyses.jl/workflows/CI/badge.svg
 [ci-url]: https://github.com/rikhuijzer/PowerAnalyses.jl/actions?query=workflow%3ACI+branch%3Amain
 
 [docs-img]: https://img.shields.io/badge/Docs-stable-blue.svg
-[docs-url]: https://poweranalyses.org
-
-[analytics-img]: https://img.shields.io/badge/Site-analytics-blueviolet.svg
-[analytics-url]: https://poweranalyses.pirsch.io
+[docs-url]: https://huijzer.xyz/PowerAnalyses.jl/
 
 Statistical power analyses in Julia
 
@@ -32,8 +28,6 @@ The priorities of this package are as follows:
 
 1. make it easy for anyone to run a power analysis; even for people who never used the Julia programming language before and
 1. don't overuse Unicode symbols (it is unreasonable to expect that everyone can easily type Unicode)
-
-See <https://poweranalyses.org> for more information.
 
 ## Validity
 
@@ -70,3 +64,5 @@ julia> get_alpha(OneSampleTTest(two_tails); power, n, es)
 ```
 
 Close enough.
+
+See <https://huijzer.xyz/PowerAnalyses.jl/> for more information.
