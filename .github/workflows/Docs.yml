@@ -37,7 +37,7 @@ jobs:
 
       - name: Deploy to https://huijzer.xyz/PowerAnalyses.jl
         shell: julia --color=yes {0}
-        run:
+        run: |
           clone = mktempdir()
           url = "git@github.com:rikhuijzer/huijzer.xyz.git"
           run(`git clone --depth=1 $url $clone`)
