@@ -31,26 +31,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-
-      - name: Deploy to https://huijzer.xyz/PowerAnalyses.jl
-        shell: julia --color=yes {0}
-        run: |
-          clone = mktempdir()
-          url = "git@github.com:rikhuijzer/huijzer.xyz.git"
-          run(`git clone --branch=gh-pages $url $clone`)
-          from = "."
-          to = joinpath(clone, "public", "PowerAnalyses.jl")
-          mkpath(to)
-          cp(from, to; force=true)
-          # To avoid Git submodules.
-          rm(joinpath(to, ".git"); recursive=true)
-          cd(clone) do
-              run(`git add .`)
-              run(`git config --global user.email 't.h.huijzer@rug.nl'`)
-              run(`git config --global user.name 'Bot'`)
-              run(`git commit --allow-empty -m 'Deploy from PowerAnalyses.jl'`)
-              run(`git push`)
-          end
