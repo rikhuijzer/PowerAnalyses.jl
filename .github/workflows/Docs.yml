@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Docs:
+  BuildAndDeploy:
     name: Documentation
     runs-on: ubuntu-latest
     steps:
@@ -21,7 +21,7 @@ jobs:
           Pkg.activate("docs")
           Pkg.instantiate()
 
-      - name: Build docs and deploy to the gh-pages branch
+      - name: Build docs and deploy to the docs branch
         shell: julia --color=yes {0}
         run: |
           using Pkg: Pkg
@@ -31,3 +31,34 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  MonoDeploy:
+    needs: BuildAndDeploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: 'docs'
+
+      - uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Deploy to https://huijzer.xyz/PowerAnalyses.jl
+        shell: julia --color=yes {0}
+        run: |
+          from = "."
+          clone = mktempdir()
+          url = "git@github.com:rikhuijzer/huijzer.xyz.git"
+          run(`git clone --depth=1 $url $clone`)
+          to = joinpath(clone, "public", "PowerAnalyses.jl")
+          mkpath(to)
+          cp(from, to; force=true)
+          # To avoid Git submodules.
+          rm(joinpath(to, ".git"); recursive=true)
+          cd(clone) do
+              run(`git add .`)
+              run(`git config --global user.email 't.h.huijzer@rug.nl'`)
+              run(`git config --global user.name 'Bot'`)
+              run(`git commit --allow-empty -m 'Deploy from PowerAnalyses.jl'`)
+              run(`git push`)
+          end
