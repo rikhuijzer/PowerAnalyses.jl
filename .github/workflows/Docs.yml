@@ -42,7 +42,7 @@ jobs:
           url = "git@github.com:rikhuijzer/huijzer.xyz.git"
           run(`git clone --depth=1 $url $clone`)
           from = "."
-          to = joinpath(clone, "PowerAnalyses.jl")
+          to = joinpath(clone, "public", "PowerAnalyses.jl")
           mkpath(to)
           cp(from, to; force=true)
           cd(clone) do
