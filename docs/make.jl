@@ -16,19 +16,11 @@ DocMeta.setdocmeta!(
 sitename = "PowerAnalyses.jl"
 pages = [
     "PowerAnalyses" => "index.md"
+    "Test page" => "test.md"
 ]
 
-# Thanks to <https://github.com/JuliaDocs/Documenter.jl/pull/1706>.
-attributes = Dict(
-    :defer => "",
-    :id => "pirschjs",
-    Symbol("data-code") => "y1t1d27IvMPpcjUcbL5GxEfmfwqKxaQ3",
-)
-assets = [
-    asset("https://api.pirsch.io/pirsch.js"; attributes, class=:js)
-]
 prettyurls = get(ENV, "CI", nothing) == "true"
-format = HTML(; assets, prettyurls)
+format = HTML(; prettyurls)
 modules = [PowerAnalyses]
 strict = true
 checkdocs = :none
