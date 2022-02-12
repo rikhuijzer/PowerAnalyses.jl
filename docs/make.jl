@@ -26,7 +26,9 @@ strict = true
 checkdocs = :none
 makedocs(; sitename, pages, format, modules, strict, checkdocs)
 
-repo = "github.com/rikhuijzer/PowerAnalyses.jl.git"
-push_preview = false
-devbranch = "main"
-deploydocs(; devbranch, repo, push_preview)
+deploydocs(;
+    branch="docs",
+    devbranch="main",
+    repo="github.com/rikhuijzer/PowerAnalyses.jl.git",
+    push_preview=false
+)

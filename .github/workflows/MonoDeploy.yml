@@ -3,7 +3,7 @@ name: MonoDeploy
 on:
   push:
     branches:
-      - gh-pages
+      - docs
   workflow_dispatch:
 
 jobs:
@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: 'gh-pages'
+          ref: 'docs'
 
       - uses: webfactory/ssh-agent@v0.5.4
         with:
