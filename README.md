@@ -1,5 +1,8 @@
 # PowerAnalyses.jl
 
+Hoi Jur
+
+
 [![CI Test][ci-img]][ci-url]
 [![Documentation][docs-img]][docs-url]
 
