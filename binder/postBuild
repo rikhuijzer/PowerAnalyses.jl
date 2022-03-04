@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -ex
+
+exit 0
+
+cat > "precompile.jl" <<- EOM
+using Random
+1 + 1
+EOM
+
+julia -e 'using Pkg; Pkg.add(; name="PackageCompiler", version="1")'
+
+cat > "create_sysimage.jl" <<- EOM
+using PackageCompiler: create_sysimage
+
+create_sysimage(;
+    sysimage_path="sysimage.so",
+    precompile_execution_file="precompile.jl"
+)
+
+exit 1
