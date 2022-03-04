@@ -2,12 +2,57 @@
 
 set -ex
 
+printenv | sort
+
 exit 0
 
-cat > "precompile.jl" <<- EOM
-using Random
+cat > "notebook.jl" <<- EOM
+### A Pluto.jl notebook ###
+# v0.18.1
+
+using Markdown
+using InteractiveUtils
+
+# ╔═╡ b2d786ec-7f73-11ea-1a0c-f38d7b6bbc1e
 1 + 1
+
+# ╔═╡ Cell order:
+# ╟─b2d786ec-7f73-11ea-1a0c-f38d7b6bbc1e
 EOM
+
+cat > "precompile.jl" <<- EOM
+using Pkg
+Pkg.activate(".")
+
+# Test whether PowerAnalyses is available.
+using PowerAnalyses
+
+# The tests have a good coverage of the package and don't take too long to run.
+Pkg.test()
+
+using Pluto
+
+session = Pluto.ServerSession()
+path = "notebook.jl"
+
+@info "Opening an example notebook"
+nb = Pluto.SessionActions.open(session, path; run_async=true)
+while nb.process_status != Pluto.ProcessStatus.ready
+    sleep(0.1)
+end
+EOM
+
+cat > "installpackages.jl" <<- EOM
+using Pkg
+packages = [
+    PackageSpec(; name="PackageCompiler", version="1"),
+    PackageSpec(; name="Pluto", version="0.18.1"),
+    PackageSpec(; name="PlutoUI", version="0.7")
+]
+Pkg.add(packages)
+EOM
+
+julia installpackages.jl
 
 julia -e 'using Pkg; Pkg.add(; name="PackageCompiler", version="1")'
 
@@ -18,5 +63,6 @@ create_sysimage(;
     sysimage_path="sysimage.so",
     precompile_execution_file="precompile.jl"
 )
+EOM
 
-exit 1
+julia create_sysimage.jl
