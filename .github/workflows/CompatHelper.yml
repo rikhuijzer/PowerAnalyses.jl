@@ -9,7 +9,8 @@ jobs:
   CompatHelper:
     runs-on: ubuntu-latest
     steps:
-      - uses: JuliaRegistries/compathelper-action@v999.0.1
+      # - uses: JuliaRegistries/compathelper-action@v999.0.1
+      - uses: rikhuijzer/compathelper-action@rh/use-setup-julia
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ssh: ${{ secrets.DOCUMENTER_KEY }}
