@@ -4,21 +4,10 @@ using Distributions:
     NoncentralChisq,
     NoncentralF,
     NoncentralT,
-    TDist,
     UnivariateDistribution,
-    ccdf,
     cdf,
-    pdf,
     quantile
 using Roots: find_zero
-
-const PKGDIR = string(pkgdir(PowerAnalyses))::String
-
-let
-    path = joinpath(PKGDIR, "README.md")
-    text = read(path, String)
-    @doc text PowerAnalyses
-end
 
 include("types.jl")
 include("power.jl")
