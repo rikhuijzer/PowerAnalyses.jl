@@ -123,7 +123,7 @@ Return the minimum effect size for some test `T` with significance level `alpha`
 """
 function get_es(T::StatisticalTest; alpha::Real, power::Real, n)
     f(es) = get_alpha(T; es, power, n) - alpha
-    initial_value = 0.5
+    initial_value = (0, 10)
     return find_zero(f, initial_value)
 end
 
@@ -134,6 +134,6 @@ Return minimum sample size `n` for some test `T` with significance level `alpha`
 """
 function get_n(T::StatisticalTest; alpha::Real, power::Real, es::Real)
     f(n) = get_alpha(T; es, power, n) - alpha
-    initial_value = 50
+    initial_value = (2, 1000)
     return find_zero(f, initial_value)
 end
