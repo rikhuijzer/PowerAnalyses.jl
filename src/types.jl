@@ -32,13 +32,14 @@ Tests based around the Student's t-distribution.
 abstract type TTest <: StatisticalTest end
 
 """
-    OneSampleTTest(tail::Tail) <: TTest
+    _OneSampleTTest(tail::Tail) <: TTest
 
 Test whether the sample differs from a constant.
 """
-struct OneSampleTTest <: TTest
+struct _OneSampleTTest <: TTest
     tail::Tail
 end
+OneSampleTTest(tail::Tail) = _OneSampleTTest(tail)
 
 """
     IndependentSamplesTTest(tail::Tail) <: TTest
@@ -166,4 +167,3 @@ The effect size is the variance `ratio` and defined as `ratio = σ² / c`.
 struct ConstantVarianceChisqTest <: ChisqTest
     tail::Tail
 end
-

@@ -7,6 +7,9 @@ using Distributions:
     UnivariateDistribution,
     cdf,
     quantile
+using HypothesisTests:
+    OneSampleTTest
+
 using Roots: find_zero
 
 include("types.jl")
