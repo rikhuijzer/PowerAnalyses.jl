@@ -46,6 +46,9 @@ using Test: @testset, @test
     @test get_es(GoodnessOfFitChisqTest(df); alpha, power, n) ≈ 0.629 atol=0.001
     @test get_n(GoodnessOfFitChisqTest(df); alpha, power, es) ≈ 79.12 atol=0.001
 
+    # https://github.com/rikhuijzer/PowerAnalyses.jl/issues/21.
+    @test get_n(GoodnessOfFitChisqTest(3); alpha=0.05, power=0.80, es=0.10) ≈ 1090.25 atol=0.1
+
     @test get_alpha(ConstantVarianceChisqTest(one_tail); es, power, n) ≈ 0.038 atol=0.02
 
     # TODO: Add test for PointBiseralTTest

@@ -123,8 +123,8 @@ Return the minimum effect size for some test `T` with significance level `alpha`
 """
 function get_es(T::StatisticalTest; alpha::Real, power::Real, n)
     f(es) = get_alpha(T; es, power, n) - alpha
-    initial_value = (0, 10)
-    return find_zero(f, initial_value)
+    initial_value = (0, 100_000)
+    return find_zero(f, initial_value, Bisection())
 end
 
 """
@@ -133,7 +133,14 @@ end
 Return minimum sample size `n` for some test `T` with significance level `alpha`, power `power` and effect size `es`.
 """
 function get_n(T::StatisticalTest; alpha::Real, power::Real, es::Real)
-    f(n) = get_alpha(T; es, power, n) - alpha
-    initial_value = (2, 1000)
-    return find_zero(f, initial_value)
+    function f(n)
+        if n < 0
+            return Inf
+        end
+        return get_alpha(T; es, power, n) - alpha
+    end
+    # Thanks to John Verzani in
+    # https://discourse.julialang.org/t/make-find-zero-more-robust/106983/4.
+    initial_value = (-1, Inf)
+    return find_zero(f, initial_value, Bisection(); rtol=1e-6, max_iters=100_000)
 end
