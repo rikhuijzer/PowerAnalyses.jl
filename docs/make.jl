@@ -21,9 +21,8 @@ pages = [
 prettyurls = get(ENV, "CI", nothing) == "true"
 format = HTML(; prettyurls)
 modules = [PowerAnalyses]
-strict = true
 checkdocs = :none
-makedocs(; sitename, pages, format, modules, strict, checkdocs)
+makedocs(; sitename, pages, format, modules, checkdocs)
 
 deploydocs(;
     branch="docs",
