@@ -7,9 +7,7 @@ using Distributions:
     UnivariateDistribution,
     cdf,
     quantile
-using Roots:
-    Bisection,
-    find_zero
+using Roots: find_zero
 
 include("types.jl")
 include("power.jl")

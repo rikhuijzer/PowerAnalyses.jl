@@ -123,8 +123,8 @@ Return the minimum effect size for some test `T` with significance level `alpha`
 """
 function get_es(T::StatisticalTest; alpha::Real, power::Real, n)
     f(es) = get_alpha(T; es, power, n) - alpha
-    initial_value = (0, 100_000)
-    return find_zero(f, initial_value, Bisection())
+    initial_value = (0, 10)
+    return find_zero(f, initial_value)
 end
 
 """
@@ -133,14 +133,19 @@ end
 Return minimum sample size `n` for some test `T` with significance level `alpha`, power `power` and effect size `es`.
 """
 function get_n(T::StatisticalTest; alpha::Real, power::Real, es::Real)
-    function f(n)
-        if n < 0
-            return Inf
+    f(n) = get_alpha(T; es, power, n) - alpha
+    step_size = 20
+    # There is probably a better way to do this, but it works.
+    # This avoids the root finding getting stuck at the wrong side of a curve.
+    for lower in 0:step_size:10_000
+        overlap = 10
+        upper = lower + step_size + overlap
+        try
+            initial_value = (lower, upper)
+            return find_zero(f, initial_value)
+        catch
+            continue
         end
-        return get_alpha(T; es, power, n) - alpha
     end
-    # Thanks to John Verzani in
-    # https://discourse.julialang.org/t/make-find-zero-more-robust/106983/4.
-    initial_value = (-1, Inf)
-    return find_zero(f, initial_value, Bisection(); rtol=1e-6, max_iters=100_000)
+    return -111.0
 end
