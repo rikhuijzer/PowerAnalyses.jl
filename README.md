@@ -65,4 +65,4 @@ julia> get_alpha(OneSampleTTest(two_tails); power, n, es)
 
 Close enough.
 
-See <https://huijzer.xyz/PowerAnalyses.jl/> for more information.
+See <https://poweranalyses.jl.huijzer.xyz> for more information.
