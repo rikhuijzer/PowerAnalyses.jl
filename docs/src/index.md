@@ -51,12 +51,6 @@ get_n
 
 ## Tests
 
-```@eval
-# Don't try to be clever here and generate @ref links.
-# Documenter.jl will not parse them as Markdown or whatever.
-# Evaluation appears to be happening very late in the process.
-```
-
 The following tests are implemented:
 
 ```@autodocs

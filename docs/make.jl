@@ -21,12 +21,11 @@ pages = [
 prettyurls = get(ENV, "CI", nothing) == "true"
 format = HTML(; prettyurls)
 modules = [PowerAnalyses]
-strict = true
 checkdocs = :none
-makedocs(; sitename, pages, format, modules, strict, checkdocs)
+makedocs(; sitename, pages, format, modules, checkdocs)
 
 deploydocs(;
-    branch="docs",
+    branch="docs-output",
     devbranch="main",
     repo="github.com/rikhuijzer/PowerAnalyses.jl.git",
     push_preview=false

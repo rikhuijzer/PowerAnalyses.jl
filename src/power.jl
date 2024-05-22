@@ -134,6 +134,18 @@ Return minimum sample size `n` for some test `T` with significance level `alpha`
 """
 function get_n(T::StatisticalTest; alpha::Real, power::Real, es::Real)
     f(n) = get_alpha(T; es, power, n) - alpha
-    initial_value = (2, 1000)
-    return find_zero(f, initial_value)
+    step_size = 20
+    # There is probably a better way to do this, but it works.
+    # This avoids the root finding getting stuck at the wrong side of a curve.
+    for lower in 0:step_size:10_000
+        overlap = 10
+        upper = lower + step_size + overlap
+        try
+            initial_value = (lower, upper)
+            return find_zero(f, initial_value)
+        catch
+            continue
+        end
+    end
+    return -111.0
 end
