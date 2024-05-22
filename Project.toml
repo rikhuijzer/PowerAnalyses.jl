@@ -1,7 +1,7 @@
 name = "PowerAnalyses"
 uuid = "fee4b835-1841-44f8-82ea-42813857171a"
 authors = ["Rik Huijzer <project.toml@huijzer.xyz>"]
-version = "0.2.5"
+version = "0.2.6"
 
 [deps]
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
