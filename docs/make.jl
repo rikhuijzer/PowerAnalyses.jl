@@ -25,7 +25,7 @@ checkdocs = :none
 makedocs(; sitename, pages, format, modules, checkdocs)
 
 deploydocs(;
-    branch="docs",
+    branch="docs-output",
     devbranch="main",
     repo="github.com/rikhuijzer/PowerAnalyses.jl.git",
     push_preview=false
