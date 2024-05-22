@@ -7,59 +7,46 @@ on:
   pull_request:
   workflow_dispatch:
 
+env:
+  JULIA_NUM_THREADS: 2
+
 jobs:
-  BuildAndDeploy:
-    name: Documentation
+  BuildDocs:
+    permissions:
+      # Required by julia-actions/cache.
+      actions: write
+      # Required by julia-actions/cache and actions-gh-pages.
+      contents: write
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
-
-      - name: Instantiate docs/
-        shell: julia --color=yes {0}
-        run: |
-          using Pkg: Pkg
-          Pkg.activate("docs")
-          Pkg.instantiate()
-
-      - name: Build docs and deploy to the docs branch
-        shell: julia --color=yes {0}
-        run: |
-          using Pkg: Pkg
-          dir = pwd()
-          Pkg.activate("docs")
-          include(joinpath(dir, "docs", "make.jl"))
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1'
+      - uses: julia-actions/cache@v2
+        with:
+          cache-name: 'docs'
+      - uses: julia-actions/julia-buildpkg@v1
+      - uses: julia-actions/julia-docdeploy@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  MonoDeploy:
-    needs: BuildAndDeploy
+  ConfigureDocs:
+    needs: BuildDocs
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'pull_request' }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: 'docs'
-
-      - uses: webfactory/ssh-agent@v0.9.0
+          ref: 'docs-output'
+      - run: echo "poweranalyses.jl.huijzer.xyz" > CNAME
+      - run: echo "<meta http-equiv=\"refresh\" content=\"0; url=./dev/\"/>" > index.html
+      - uses: peaceiris/actions-gh-pages@v4
         with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-
-      - name: Deploy to https://huijzer.xyz/PowerAnalyses.jl
-        shell: julia --color=yes {0}
-        run: |
-          from = "."
-          clone = mktempdir()
-          url = "git@github.com:rikhuijzer/huijzer.xyz.git"
-          run(`git clone --depth=1 $url $clone`)
-          to = joinpath(clone, "public", "PowerAnalyses.jl")
-          mkpath(to)
-          cp(from, to; force=true)
-          # To avoid Git submodules.
-          rm(joinpath(to, ".git"); recursive=true)
-          cd(clone) do
-              run(`git add .`)
-              run(`git config --global user.email 't.h.huijzer@rug.nl'`)
-              run(`git config --global user.name 'Bot'`)
-              run(`git commit --allow-empty -m 'Deploy from PowerAnalyses.jl'`)
-              run(`git push`)
-          end
+          force_orphan: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          publish_branch: 'docs-output'

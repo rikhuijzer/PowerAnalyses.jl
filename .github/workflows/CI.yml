@@ -9,6 +9,11 @@ on:
 
 jobs:
   Test:
+    permissions:
+      # Required by julia-actions/cache.
+      actions: write
+      # Required by julia-actions/cache and actions-gh-pages.
+      contents: write
     name: Test
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
@@ -23,7 +28,7 @@ jobs:
           - windows-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: julia-actions/setup-julia@v2
         with:
           version: ${{ matrix.version }}
