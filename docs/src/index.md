@@ -38,6 +38,9 @@ T = OneSampleTTest(two_tails)
 get_n(T; alpha, power, es)
 ```
 
+Here, [`OneSampleTTest`](@ref) is a type of a test, see [Tests](@ref) for other tests.
+[`get_n`](@ref) is a function to determine `n`; other functions are listed at [Functions](@ref).
+
 ## Functions
 
 The functions for determining the parameters take the following arguments:
