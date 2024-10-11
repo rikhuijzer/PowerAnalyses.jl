@@ -20,9 +20,26 @@ using Test: @testset, @test
     @test get_n(OneSampleTTest(two_tails); alpha, power, es) ≈ 53.941 atol=0.001
     @test get_n(OneSampleTTest(one_tail); alpha, power, es) ≈ 44.679 atol=0.001
 
-    # G*Power gives 0.77; they seem to calculate the noncentrality_parameter differently.
-    # pwr.t.test(n=50, d=0.5, sig.level=NULL, power=0.95, type="two.sample", alternative="two.sided")
-    @test get_alpha(IndependentSamplesTTest(two_tails); es, power, n) ≈ 0.392 atol=0.01
+    @testset "IndependentSamplesTTest" begin
+        @testset "two_tails" begin
+            # This matches power.t.test(n=50, d=0.5, sig.level=NULL, power=0.95, type="two.sample", alternative="two.sided")
+            # but not pwr.t.test(n=50, d=0.5, sig.level=NULL, power=0.95, type="two.sample", alternative="two.sided")
+            # because the latter considers both sides of the distribution. A fix will probably require
+            # switching to root finding. The pwr.t.test matches # G*Power and is 0.3928954
+            @test get_alpha(IndependentSamplesTTest(two_tails); es, power, n) ≈ 0.3950408 rtol=1e-6
+            @test get_power(IndependentSamplesTTest(two_tails); es, alpha, n) ≈ 0.6968888 rtol=1e-6
+            @test get_es(IndependentSamplesTTest(two_tails); alpha, power, n) ≈ 0.7281209 rtol=1e-4
+            @test get_n(IndependentSamplesTTest(two_tails); es, alpha, power) ≈ 104.928 rtol=1e-6
+        end
+        @testset "one_tail" begin
+            # R gives a warning that full precision might not have been achieved
+            @test get_alpha(IndependentSamplesTTest(one_tail); es, power, n) ≈ 0.197544 rtol=1e-3
+            @test get_power(IndependentSamplesTTest(one_tail); es, alpha, n) ≈ 0.7989362 rtol=1e-6
+            @test get_es(IndependentSamplesTTest(one_tail); alpha, power, n) ≈ 0.6625412 rtol=1e-6
+            @test get_n(IndependentSamplesTTest(one_tail); es, alpha, power) ≈ 87.2626 rtol=1e-6
+        end
+    end
+
     # Same as the one sample t-test.
     @test get_alpha(DependentSamplesTTest(two_tails); es, power, n) ≈ 0.067 atol=0.01
 
