@@ -5,10 +5,13 @@ Return `power` for which `quantile(d0, alpha) == quantile(d1, beta)` and `beta =
 """
 function _power(d0::UnivariateDistribution, d1::UnivariateDistribution, alpha::Real, tail::Tail)
     right_tail = tail == one_tail ? alpha : alpha / 2
-    except_right_tail = 1 - right_tail
-    critical_value = quantile(d0, except_right_tail)
-    beta = cdf(d1, critical_value)
-    return 1 - beta
+    upper_critical_value = cquantile(d0, right_tail)
+    if tail == one_tail
+        return ccdf(d1, upper_critical_value)
+    else
+        lower_critical_value = quantile(d0, right_tail)
+        return cdf(d1, lower_critical_value) + ccdf(d1, upper_critical_value)
+    end
 end
 
 """
@@ -17,11 +20,9 @@ end
 Return `alpha` for which `quantile(d0, alpha) == quantile(d1, beta)` and `beta = 1 - power`.
 """
 function _alpha(d0::UnivariateDistribution, d1::UnivariateDistribution, power::Real, tail::Tail)
-    beta = 1 - power
-    critical_value = quantile(d1, beta)
-    except_right_tail = cdf(d0, critical_value)
-    right_tail = 1 - except_right_tail
-    return tail == one_tail ? right_tail : 2 * right_tail
+    return find_zero((0, 1)) do alpha
+        return _power(d0, d1, alpha, tail) - power
+    end
 end
 
 _distribution_parameters(T::IndependentSamplesTTest, n) = 2 * n - 2 # n1 + n2 - 2
@@ -122,9 +123,10 @@ end
 Return the minimum effect size for some test `T` with significance level `alpha`, power `power` and sample size `n`.
 """
 function get_es(T::StatisticalTest; alpha::Real, power::Real, n)
-    f(es) = get_alpha(T; es, power, n) - alpha
-    initial_value = (0, 10)
-    return find_zero(f, initial_value)
+    initial_value = (0, 1000)
+    return find_zero(initial_value) do es
+        get_power(T; es, alpha, n) - power
+    end
 end
 
 """

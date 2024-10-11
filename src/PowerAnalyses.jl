@@ -6,7 +6,9 @@ using Distributions:
     NoncentralT,
     UnivariateDistribution,
     cdf,
-    quantile
+    ccdf,
+    quantile,
+    cquantile
 using Roots: find_zero
 
 include("types.jl")
