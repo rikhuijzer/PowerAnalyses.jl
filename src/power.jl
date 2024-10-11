@@ -24,7 +24,7 @@ function _alpha(d0::UnivariateDistribution, d1::UnivariateDistribution, power::R
     return tail == one_tail ? right_tail : 2 * right_tail
 end
 
-_distribution_parameters(T::IndependentSamplesTTest, n) = n - 2 # n1 + n2 - 2
+_distribution_parameters(T::IndependentSamplesTTest, n) = 2 * n - 2 # n1 + n2 - 2
 _distribution_parameters(T::PointBiserialTTest, n) = n - 2
 _distribution_parameters(T::TTest, n) = n - 1
 function _distribution_parameters(T::DeviationFromZeroMultipleRegression, n)
