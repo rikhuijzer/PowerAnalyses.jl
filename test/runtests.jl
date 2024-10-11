@@ -22,14 +22,15 @@ using Test: @testset, @test
 
     @testset "IndependentSamplesTTest" begin
         @testset "two_tails" begin
-            # This matches power.t.test(n=50, d=0.5, sig.level=NULL, power=0.95, type="two.sample", alternative="two.sided")
-            # but not pwr.t.test(n=50, d=0.5, sig.level=NULL, power=0.95, type="two.sample", alternative="two.sided")
-            # because the latter considers both sides of the distribution. A fix will probably require
-            # switching to root finding. The pwr.t.test matches # G*Power and is 0.3928954
-            @test get_alpha(IndependentSamplesTTest(two_tails); es, power, n) ≈ 0.3950408 rtol=1e-6
-            @test get_power(IndependentSamplesTTest(two_tails); es, alpha, n) ≈ 0.6968888 rtol=1e-6
+            # This matches pwr.t.test(n=50, d=0.5, sig.level=NULL, power=0.95, type="two.sample", alternative="two.sided")
+            # but not power.t.test(n=50, d=0.5, sig.level=NULL, power=0.95, type="two.sample", alternative="two.sided")
+            # because the latter considers both sides of the distribution. The pwr.t.test matches # G*Power and is 0.3928954
+            @test get_alpha(IndependentSamplesTTest(two_tails); es, power, n) ≈ 0.3928954 rtol=1e-6
+            @test get_power(IndependentSamplesTTest(two_tails); es, alpha, n) ≈ 0.6968934 rtol=1e-6
             @test get_es(IndependentSamplesTTest(two_tails); alpha, power, n) ≈ 0.7281209 rtol=1e-4
-            @test get_n(IndependentSamplesTTest(two_tails); es, alpha, power) ≈ 104.928 rtol=1e-6
+            @test get_n(IndependentSamplesTTest(two_tails); es, alpha, power) ≈ 104.9279 rtol=1e-6
+
+            @test get_power(IndependentSamplesTTest(two_tails); es = 0.0, alpha, n) ≈ alpha
         end
         @testset "one_tail" begin
             # R gives a warning that full precision might not have been achieved
