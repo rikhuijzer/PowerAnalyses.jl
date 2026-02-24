@@ -42,7 +42,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: 'docs-output'
-      - run: echo "poweranalyses.jl.huijzer.xyz" > CNAME
       - run: echo "<meta http-equiv=\"refresh\" content=\"0; url=./dev/\"/>" > index.html
       - uses: peaceiris/actions-gh-pages@v4
         with:
