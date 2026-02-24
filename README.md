@@ -7,7 +7,7 @@
 [ci-url]: https://github.com/rikhuijzer/PowerAnalyses.jl/actions?query=workflow%3ACI+branch%3Amain
 
 [docs-img]: https://img.shields.io/badge/Docs-stable-blue.svg
-[docs-url]: https://huijzer.xyz/PowerAnalyses.jl/
+[docs-url]: https://rikhuijzer.github.io/PowerAnalyses.jl/
 
 Statistical power analyses in Julia
 
